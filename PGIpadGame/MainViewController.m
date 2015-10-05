@@ -220,6 +220,10 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.view.backgroundColor = UIColorFromRGB(0xECECEF);
+    
+    
     self.deskInfoArray = [[NSMutableArray alloc] init];
     self.betInfoArray = [[NSMutableArray alloc] init];
     self.managerInfoArray = [[NSMutableArray alloc] init];
@@ -257,7 +261,6 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
 
 - (void)createUI{
     
-    self.view.backgroundColor = [UIColor lightGrayColor];
     self.title = @"酒水竞猜";
    
     UIView *hederView = [self createHederView];
@@ -516,6 +519,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
                         weakSelf.containerGuessInfo.drinkID = selectedModel.drinkID;
                         weakSelf.containerGuessInfo.oddsID = selectedModel.oddsID;
                         weakSelf.containerGuessInfo.drinkNum = selectedModel.drinkNum;
+                        weakSelf.containerGuessInfo.drinkName = selectedModel.drinkName;
                         weakSelf.containerGuessInfo.betModel = betModel;
                         
                         drinksNumLabel.text = selectedModel.drinkNum;
@@ -623,6 +627,15 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
         if (selectedBetButton.isBetSelect == YES) {
             selectedBetButton.oddsLabel.text = self.containerGuessInfo.betModel.odds;
             selectedBetButton.isBetSelect = NO;
+            
+            for (int i = 0; i < [self.containerGuessArray count]; i++) {
+                GuessInfoModel *model = self.containerGuessArray[i];
+                if (selectedBetButton.tag == [model.oddsID integerValue]) {
+                    [self.containerGuessArray removeObject:model];
+                    break;
+                }
+            }
+            
             selectedBetButton.betmodel.drinksNumber = [NSNumber numberWithInteger:0];
             drinksNumLabel.text = @"0";
             [self updateBetButton:selectedBetButton];
@@ -962,10 +975,9 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
     [paramDict setValue:guessArray forKey:@"orderDetailVoList"];
     
     
-    NSString *josn =[self dictionaryToJson:paramDict];
-    
     [SVProgressHUD show];
     WS(weakSelf);
+    
     [GMNetWorking submitGuessToServer:paramDict completion:^(id obj) {
         [SVProgressHUD dismiss];
         
@@ -984,6 +996,16 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
         
     } fail:^(NSString *error) {
         
+        for (int i = 0; i < [self.containerGuessArray count]; i++) {
+            GuessInfoModel *model = self.containerGuessArray[i];
+            BetButton *button = (BetButton *)[weakSelf.view viewWithTag:[model.oddsID integerValue]];
+            button.oddsLabel.text = button.betmodel.odds;
+            button.betmodel.drinksNumber = [NSNumber numberWithInteger:0];
+            [self updateBetButton:button];
+        }
+        
+        [weakSelf.containerGuessArray removeAllObjects];
+        
         [SVProgressHUD showErrorWithStatus:error.description];
     }];
     
@@ -993,10 +1015,48 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
 }
 
 
+//@property (nonatomic, strong) NSString *oddsID;
+//@property (nonatomic, strong) NSString *drinkNum;
+//@property (nonatomic, strong) NSString *drinkID;
+//@property (nonatomic, strong) NSString *drinkName;
+//@property (nonatomic, strong) BetModel *betModel;
+
+
+//
+//@property (nonatomic , strong)NSString *odds;//赔率
+//
+//@property (nonatomic , strong)NSString *betType;//押注类型
+//@property (nonatomic , assign)NSInteger typeID;
+//@property (nonatomic , strong)DrinksModel* drinksModel;
+//@property (nonatomic , strong)NSNumber *drinksNumber;//下注酒水数量
+
+
+//@property (nonatomic ,assign)NSInteger drinksID;
+//@property (nonatomic ,strong)NSString *name;
+//@property (nonatomic ,strong)NSNumber *price;
+//@property (nonatomic ,assign)NSInteger buyLimit;
 
 //修改订单====
 - (void)clickCellModifyButtonWithDataSource:(NSDictionary *)dataSource{
-    
+    NSArray *orderList = dataSource[@"orderDetailVoList"];
+    for (int i = 0; i < [orderList count]; i++) {
+        NSDictionary *detial = orderList[i];
+        GuessInfoModel *mode = [[GuessInfoModel alloc] init];
+        
+        
+        mode.oddsID    = [NSString stringWithFormat:@"%@",detial[@"oddsId"]];
+        mode.drinkNum  = [NSString stringWithFormat:@"%@",detial[@"drinkNum"]];;
+        mode.drinkName = [NSString stringWithFormat:@"%@",detial[@"drinkName"]];
+        mode.drinkID   = [NSString stringWithFormat:@"%@",detial[@"drinkId"]];
+        
+        BetButton *betButton = (BetButton *)[self.view viewWithTag:[mode.oddsID integerValue]];
+        
+        betButton.betmodel.drinksNumber = [NSNumber numberWithInteger:[mode.oddsID integerValue]];
+        [self updateBetButton:betButton];
+        mode.betModel = betButton.betmodel;
+        
+        
+    }
     
 }
 

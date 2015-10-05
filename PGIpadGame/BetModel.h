@@ -41,8 +41,11 @@ typedef NS_ENUM(NSUInteger, BetTypeID) {
 @property (nonatomic , strong)NSString *odds;//赔率
 
 @property (nonatomic , strong)NSString *betType;//押注类型
+
 @property (nonatomic , assign)NSInteger typeID;
+
 @property (nonatomic , strong)DrinksModel* drinksModel;
+
 @property (nonatomic , strong)NSNumber *drinksNumber;//下注酒水数量
 
 @end
