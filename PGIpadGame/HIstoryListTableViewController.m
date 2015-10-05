@@ -50,6 +50,7 @@
     WS(weakself);
     [GMNetWorking getHistoryListWithTimeout:15 completion:^(id obj) {
         [SVProgressHUD dismiss];
+        [weakself.tableView.header endRefreshing];
         self.dataSource = [obj mutableCopy];
         
         NSMutableArray *indexArray = [NSMutableArray array];
@@ -69,6 +70,7 @@
         
     } fail:^(NSString *error) {
         [SVProgressHUD showErrorWithStatus:error];
+        [weakself.tableView.header endRefreshing];
     }];
 }
 

@@ -80,6 +80,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
         _deskPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 216)];
         _deskPickerView.delegate = self;
         _deskPickerView.dataSource = self;
+        _deskPickerView.backgroundColor = [UIColor whiteColor];
         _deskPickerView.tag = 10000;
     }
     return _deskPickerView;
@@ -91,6 +92,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
         _beautyPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 216)];
         _beautyPickerView.delegate = self;
         _beautyPickerView.dataSource = self;
+        _beautyPickerView.backgroundColor = [UIColor whiteColor];
         _beautyPickerView.tag = 20000;
     }
     return _beautyPickerView;
@@ -101,6 +103,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
         _managerPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 216)];
         _managerPickerView.delegate = self;
         _managerPickerView.dataSource = self;
+        _managerPickerView.backgroundColor = [UIColor whiteColor];
         _managerPickerView.tag = 30000;
     }
     return _managerPickerView;
