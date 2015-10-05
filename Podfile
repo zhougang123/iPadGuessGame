@@ -5,6 +5,8 @@ target 'PGIpadGame' do
 
 pod 'AFNetworking'
 pod 'SVProgressHUD'
+pod 'MJRefresh', '~> 2.4.11'
+pod 'DZNEmptyDataSet', '~> 1.7.2'
 
 end
 
