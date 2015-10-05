@@ -68,6 +68,9 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
 @property (nonatomic, strong)GuessInfoModel *containerGuessInfo;
 
 @property (nonatomic, strong)NSString *defaultDrinkID;
+
+
+@property (nonatomic, assign)BOOL isGuessModel;
 @end
 
 @implementation MainViewController
@@ -223,6 +226,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
     
     self.view.backgroundColor = UIColorFromRGB(0xECECEF);
     
+    self.isGuessModel = YES;
     
     self.deskInfoArray = [[NSMutableArray alloc] init];
     self.betInfoArray = [[NSMutableArray alloc] init];
@@ -345,7 +349,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
     [deskIcon setImage:[UIImage imageNamed:@"jincai_icon_jiuzhuo"]];
     
     
-    self.deskButton = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(deskIcon.frame), 7 * BILI_WIDTH, width - 20 * BILI_WIDTH - 30 * BILI_WIDTH, 30 * BILI_WIDTH)];
+    self.deskButton = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(deskIcon.frame), 13 * BILI_WIDTH, width - 20 * BILI_WIDTH - 30 * BILI_WIDTH, 18 * BILI_WIDTH)];
     self.deskButton.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.deskButton.layer.borderWidth = 1.0;
     [self.deskButton setTitle:@"桌号" forState:UIControlStateNormal];
@@ -355,7 +359,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
     UIImageView *beautyIcon = [[UIImageView alloc] initWithFrame:CGRectMake(30 + width, 15 * BILI_WIDTH, 14 * BILI_WIDTH, 14 * BILI_WIDTH)];
     [beautyIcon setImage:[UIImage imageNamed:@"jincai_icon_jiali"]];
     
-    self.beautyButton = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(beautyIcon.frame), 7 * BILI_WIDTH, width - 20 * BILI_WIDTH - 30 * BILI_WIDTH, 30 * BILI_WIDTH)];
+    self.beautyButton = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(beautyIcon.frame), 13 * BILI_WIDTH, width - 20 * BILI_WIDTH - 30 * BILI_WIDTH, 18 * BILI_WIDTH)];
     self.beautyButton.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.beautyButton.layer.borderWidth = 1.0;
     [self.beautyButton setTitle:@"佳丽" forState:UIControlStateNormal];
@@ -365,7 +369,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
     UIImageView *managerIcon = [[UIImageView alloc] initWithFrame:CGRectMake(30 + width*2.0, 15 * BILI_WIDTH, 14 * BILI_WIDTH, 14 * BILI_WIDTH)];
     [managerIcon setImage:[UIImage imageNamed:@"jincai_icon_manager"]];
     
-    self.managerButton = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(managerIcon.frame), 7 * BILI_WIDTH, width - 20 * BILI_WIDTH - 30 * BILI_WIDTH, 30 * BILI_WIDTH)];
+    self.managerButton = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(managerIcon.frame), 13 * BILI_WIDTH, width - 20 * BILI_WIDTH - 30 * BILI_WIDTH, 18 * BILI_WIDTH)];
     self.managerButton.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.managerButton.layer.borderWidth = 1.0;
     [self.managerButton setTitle:@"经理" forState:UIControlStateNormal];
@@ -387,6 +391,12 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
     
     WS(weakSelf);
     
+    
+    if (self.isGuessModel == NO) {
+        
+        [SVProgressHUD showErrorWithStatus:@"目前为修改订单模式，不可修改房间信息"];
+        return;
+    }
     [GMNetWorking getDeskListWithTimeout:30 completion:^(id respDesk) {
         NSDictionary *resDictDesk = (NSDictionary *)respDesk;
         if ([resDictDesk count] > 0) {
@@ -408,6 +418,11 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
 }
 - (void)beautyButtonAction{
     WS(weakSelf);
+    if (self.isGuessModel == NO) {
+        
+        [SVProgressHUD showErrorWithStatus:@"目前为修改订单模式，不可修改房间信息"];
+        return;
+    }
     [GMNetWorking getBeautyListWithTimeout:30 completion:^(id respBeauty) {
         NSDictionary *resDictBeauty = (NSDictionary *)respBeauty;
         if ([resDictBeauty count] > 0) {
@@ -428,6 +443,11 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
 }
 - (void)managerButtonAction{
     WS(weakSelf);
+    if (self.isGuessModel == NO) {
+        
+        [SVProgressHUD showErrorWithStatus:@"目前为修改订单模式，不可修改房间信息"];
+        return;
+    }
     [GMNetWorking getManagerListWithTimeout:30.0 completion:^(id respManager) {
         NSDictionary *resDictManager = (NSDictionary *)respManager;
         if ([resDictManager count] > 0) {
@@ -479,6 +499,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
         [but setBackgroundImage:[UIImage imageNamed:@"jincai_button_default"] forState:UIControlStateNormal];
         but.betTypeLabel.textColor = TextGrayColor;
         but.oddsLabel.textColor = TextRedColor;
+        but.isBetSelect = NO;
 
 
     }else{
@@ -486,6 +507,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
         [but setBackgroundImage:[UIImage imageNamed:@"jincai_button_press"] forState:UIControlStateNormal];
         but.betTypeLabel.textColor = [UIColor whiteColor];
         but.oddsLabel.textColor = [UIColor whiteColor];
+        but.isBetSelect = YES;
     }
     
    
@@ -626,7 +648,6 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
         [SVProgressHUD showErrorWithStatus:@"请选择下注的瓶数"];
         if (selectedBetButton.isBetSelect == YES) {
             selectedBetButton.oddsLabel.text = self.containerGuessInfo.betModel.odds;
-            selectedBetButton.isBetSelect = NO;
             
             for (int i = 0; i < [self.containerGuessArray count]; i++) {
                 GuessInfoModel *model = self.containerGuessArray[i];
@@ -653,7 +674,6 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
     
     
     selectedBetButton.oddsLabel.text = [NSString stringWithFormat:@"%@ 瓶 %@", self.containerGuessInfo.drinkNum, self.containerGuessInfo.drinkName];
-    selectedBetButton.isBetSelect = YES;
     
     selectedBetButton.betmodel.drinksNumber = [NSNumber numberWithInteger:[drinksNumLabel.text integerValue]];
     drinksNumLabel.text = @"0";
@@ -1039,7 +1059,11 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
 
 //修改订单====
 - (void)clickCellModifyButtonWithDataSource:(NSDictionary *)dataSource{
+    
+    
+    
     NSArray *orderList = dataSource[@"orderDetailVoList"];
+
     for (int i = 0; i < [orderList count]; i++) {
         NSDictionary *detial = orderList[i];
         GuessInfoModel *mode = [[GuessInfoModel alloc] init];
@@ -1051,13 +1075,22 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
         mode.drinkID   = [NSString stringWithFormat:@"%@",detial[@"drinkId"]];
         
         BetButton *betButton = (BetButton *)[self.view viewWithTag:[mode.oddsID integerValue]];
-        
         betButton.betmodel.drinksNumber = [NSNumber numberWithInteger:[mode.oddsID integerValue]];
         [self updateBetButton:betButton];
         mode.betModel = betButton.betmodel;
         
-        
     }
+    
+    [self.deskButton setTitle:[NSString stringWithFormat:@"%@", dataSource[@"deskName"]] forState:UIControlStateNormal];
+    [self.beautyButton setTitle:[NSString stringWithFormat:@"%@", dataSource[@"beautyWorkNumber"]] forState:UIControlStateNormal];
+    [self.managerButton setTitle:[NSString stringWithFormat:@"%@", dataSource[@"managerWorkNumber"]] forState:UIControlStateNormal];
+    
+    self.isGuessModel = NO;///竞猜模式下不可以修改房间信息
+    
+    self.title = @"修改竞猜订单";
+    
+    
+    
     
 }
 
