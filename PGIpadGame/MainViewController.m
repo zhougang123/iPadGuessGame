@@ -999,6 +999,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
         for (int i = 0; i < [self.containerGuessArray count]; i++) {
             GuessInfoModel *model = self.containerGuessArray[i];
             BetButton *button = (BetButton *)[weakSelf.view viewWithTag:[model.oddsID integerValue]];
+            button.isBetSelect = NO;
             button.oddsLabel.text = button.betmodel.odds;
             button.betmodel.drinksNumber = [NSNumber numberWithInteger:0];
             [self updateBetButton:button];
