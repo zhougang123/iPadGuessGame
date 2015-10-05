@@ -9,7 +9,7 @@
 #import "HIstoryListTableViewController.h"
 #import "HistoryTableViewCell.h"
 
-@interface HIstoryListTableViewController ()<UIAlertViewDelegate>
+@interface HIstoryListTableViewController ()<UIAlertViewDelegate,DZNEmptyDataSetDelegate,DZNEmptyDataSetSource>
 
 @property (nonatomic ,strong)NSMutableArray *dataSource;
 
@@ -26,6 +26,16 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cellModifyButtonAction:) name:@"cellModifyButtonAction" object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cellCancelButtonAction:) name:@"cellCancelButtonAction" object:nil];
+    
+    self.tableView.emptyDataSetDelegate = self;
+    self.tableView.emptyDataSetSource = self;
+    self.tableView.tableFooterView = [[UIView alloc]init];
+    WS(weakself);
+    self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+       
+        [weakself netWorking];
+        
+    }];
     
 }
 
@@ -127,6 +137,90 @@
         [self.delegate clickCellModifyButtonWithDataSource:dataSource];
     }
 }
+
+
+#pragma  mark -自动填充框架
+
+//- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView{
+//    return [UIImage imageNamed:@"3-1"];
+//}
+//
+//- (CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *)scrollView
+//{
+//    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath: @"transform"];
+//
+//    animation.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
+//    animation.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI_2, 0.0, 0.0, 1.0)];
+//
+//    animation.duration = 0.25;
+//    animation.cumulative = YES;
+//    animation.repeatCount = MAXFLOAT;
+//
+//    return animation;
+//}
+
+
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
+{
+    NSString *text = @"暂无数据，请稍后查看噢!";
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:18.0f],
+                                 NSForegroundColorAttributeName: [UIColor darkGrayColor]};
+    
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+}
+
+- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
+{
+    NSString *text = @"您也可以点击下面的按钮重新加载";
+    
+    NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
+    paragraph.lineBreakMode = NSLineBreakByWordWrapping;
+    paragraph.alignment = NSTextAlignmentCenter;
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:14.0f],
+                                 NSForegroundColorAttributeName: [UIColor lightGrayColor],
+                                 NSParagraphStyleAttributeName: paragraph};
+    
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+}
+
+
+- (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
+{
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:17.0f]};
+    
+    return [[NSAttributedString alloc] initWithString:@"Continue" attributes:attributes];
+}
+
+- (UIImage *)buttonImageForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
+{
+    return [UIImage imageNamed:@"button_image"];
+}
+
+
+- (UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView
+{
+    return [UIColor whiteColor];
+}
+
+
+
+- (void)emptyDataSetDidTapView:(UIScrollView *)scrollView
+{
+    // Do something
+}
+
+
+
+- (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView
+{
+    // Do something
+    [self netWorking];
+}
+
+
+
 
 
 //点击取消按钮
