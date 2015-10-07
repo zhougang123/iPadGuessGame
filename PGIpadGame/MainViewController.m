@@ -1072,7 +1072,6 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
 - (void)clickCellModifyButtonWithDataSource:(NSDictionary *)dataSource{
     
     //清楚以前的赌注
-
     for (int i = 0; i < [self.containerGuessArray count]; i++) {
         GuessInfoModel *model = self.containerGuessArray[i];
         BetButton *button = (BetButton *)[self.view viewWithTag:[model.oddsID integerValue]];
@@ -1080,7 +1079,8 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
         button.betmodel.drinksNumber = [NSNumber numberWithInteger:0];
         [self updateBetButton:button];
     }
-    
+    self.containerGuessInfo = nil;
+    selectedBetButton = nil;
     [self.containerGuessArray removeAllObjects];
     
     
@@ -1099,7 +1099,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
         mode.drinkID   = [NSString stringWithFormat:@"%@",detial[@"drinkId"]];
         
         BetButton *betButton = (BetButton *)[self.view viewWithTag:[mode.oddsID integerValue]];
-        selectedBetButton.oddsLabel.text = [NSString stringWithFormat:@"%@ 瓶 %@", mode.drinkNum, mode.drinkName];
+        betButton.oddsLabel.text = [NSString stringWithFormat:@"%@ 瓶 %@", mode.drinkNum, mode.drinkName];
         betButton.betmodel.drinksNumber = [NSNumber numberWithInteger:[mode.drinkNum integerValue]];
         mode.betModel = betButton.betmodel;
         [self.containerGuessArray addObject:mode];
