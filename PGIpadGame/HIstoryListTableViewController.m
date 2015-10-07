@@ -8,7 +8,7 @@
 
 #import "HIstoryListTableViewController.h"
 #import "HistoryTableViewCell.h"
-
+#import "PGCustomView.h"
 @interface HIstoryListTableViewController ()<UIAlertViewDelegate,DZNEmptyDataSetDelegate,DZNEmptyDataSetSource>
 
 @property (nonatomic ,strong)NSMutableArray *dataSource;
@@ -76,11 +76,14 @@
 
 #pragma mark - Table view data source
 
-
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return self.dataSource.count;
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return self.dataSource.count;
+    return 1;
 }
 
 
@@ -92,26 +95,40 @@
         cell = [[HistoryTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
     
-    NSDictionary *dic = self.dataSource[indexPath.row];
+    NSDictionary *dic = self.dataSource[indexPath.section];
     cell.dataSource = dic;
-    CGFloat cellH = [cell drawTableCellWithDetials:[dic objectForKey:@"orderDetailVoList"]];
-    CGRect frame = cell.frame;
-    frame.size.height = cellH;
-    cell.frame = frame;
-    
+    [cell drawTableCellWithDetials:[dic objectForKey:@"orderDetailVoList"]];
+
     return cell;
 }
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    HistoryTableViewCell *cell = (HistoryTableViewCell *) [self tableView:tableView cellForRowAtIndexPath:indexPath];
+     NSArray *listArray = self.dataSource[indexPath.section][@"orderDetailVoList"];
     
-    CGFloat height = cell.frame.size.height;
+    CGFloat rowHeight = 55 * BILI_WIDTH + kOneLineHeight * ([listArray count] + 1);
     
-//    [cell setNeedsDisplay];
-    
-    return height;
+    return rowHeight;
+}
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    CGFloat headerHeight = 0;
+    if (section == 0) {
+        headerHeight = 0;
+    }else{
+        headerHeight = 4;
+    }
+    return section;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *head = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 4)];
+    head.backgroundColor = UIColorFromRGB(0xE4E4E4);
+    return head;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

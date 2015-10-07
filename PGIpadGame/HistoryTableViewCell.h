@@ -12,6 +12,6 @@
 
 @property (nonatomic ,strong)NSDictionary *dataSource;
 
-- (CGFloat)drawTableCellWithDetials:(NSArray *)detials;
+- (void)drawTableCellWithDetials:(NSArray *)detials;
 
 @end

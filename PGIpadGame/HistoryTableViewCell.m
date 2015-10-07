@@ -87,7 +87,7 @@
     UIView *lineView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.roundLabel.frame) +10 *BILI_WIDTH, SCREEN_WIDTH, 1)];
     lineView.backgroundColor = UIColorFromRGB(0xE4E4E4);
     
-    
+//    20 * BILI_WIDTH + 10 *BILI_WIDTH + 5 * BILI_WIDTH + 10 * BILI_WIDTH
     //FootView
     UILabel *timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(10 *BILI_WIDTH, CGRectGetMaxY(lineView.frame) + 5*BILI_WIDTH, 30 *BILI_WIDTH, 10 *BILI_WIDTH)];
     timeLabel.text = @"竞猜时间:";
@@ -210,14 +210,16 @@
 }
 
 
-- (CGFloat)drawTableCellWithDetials:(NSArray *)detials
+- (void)drawTableCellWithDetials:(NSArray *)detials
 {
+    [self setNeedsLayout];
+    
     self.containerView.frame = CGRectMake(10 * BILI_WIDTH, CGRectGetMaxY(self.jialiLabel.frame) + 10*BILI_WIDTH, SCREEN_WIDTH - 20 *BILI_WIDTH, kOneLineHeight * [detials count] +kOneLineHeight);
     self.rectView.frame = CGRectMake(0, CGRectGetMaxY(self.containerView.frame) +kOneLineHeight, SCREEN_WIDTH, 4);
     
     self.containerView.detialsArray = detials;
     
-    return CGRectGetMaxY(self.rectView.frame);
+    [self.containerView setNeedsDisplay];
 }
 
 

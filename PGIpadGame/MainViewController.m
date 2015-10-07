@@ -203,13 +203,13 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
     if ([self.selectBeautyTF isFirstResponder]) {
         NSInteger row2 = [self.beautyPickerView selectedRowInComponent:0];
         [self.beautyButton setTitle:self.betInfoArray[row2][@"workNumber"] forState:UIControlStateNormal];
-        self.beautyInfoDist = self.deskInfoArray[row2];
+        self.beautyInfoDist = self.betInfoArray[row2];
 
     }
     if ([self.selectManagerTF isFirstResponder]) {
         NSInteger row3 = [self.managerPickerView selectedRowInComponent:0];
         [self.managerButton setTitle:self.managerInfoArray[row3][@"workNumber"] forState:UIControlStateNormal];
-        self.manmgerInfoDist = self.deskInfoArray[row3];
+        self.manmgerInfoDist = self.managerInfoArray[row3];
 
     }
     
@@ -1069,8 +1069,21 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
 //修改订单====
 - (void)clickCellModifyButtonWithDataSource:(NSDictionary *)dataSource{
     
+    //清楚以前的赌注
+
+    for (int i = 0; i < [self.containerGuessArray count]; i++) {
+        GuessInfoModel *model = self.containerGuessArray[i];
+        BetButton *button = (BetButton *)[self.view viewWithTag:[model.oddsID integerValue]];
+        button.oddsLabel.text = button.betmodel.odds;
+        button.betmodel.drinksNumber = [NSNumber numberWithInteger:0];
+        [self updateBetButton:button];
+    }
+    
+    [self.containerGuessArray removeAllObjects];
     
     
+    
+    //显示要修改的赌注
     NSArray *orderList = dataSource[@"orderDetailVoList"];
 
     for (int i = 0; i < [orderList count]; i++) {
@@ -1084,8 +1097,8 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
         mode.drinkID   = [NSString stringWithFormat:@"%@",detial[@"drinkId"]];
         
         BetButton *betButton = (BetButton *)[self.view viewWithTag:[mode.oddsID integerValue]];
-        betButton.betmodel.drinksNumber = [NSNumber numberWithInteger:[mode.oddsID integerValue]];
-        [self updateBetButton:betButton];
+        selectedBetButton.oddsLabel.text = [NSString stringWithFormat:@"%@ 瓶 %@", mode.drinkNum, mode.drinkName];
+        betButton.betmodel.drinksNumber = [NSNumber numberWithInteger:[mode.drinkNum integerValue]];
         mode.betModel = betButton.betmodel;
         [self.containerGuessArray addObject:mode];
         [self updateBetButton:betButton];
@@ -1106,8 +1119,6 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
     
     self.title = @"修改竞猜订单";
     
-   
-  
     
 }
 
