@@ -69,6 +69,8 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
 
 @property (nonatomic, strong)NSString *defaultDrinkID;
 
+@property (nonatomic, strong)NSNumber *guessID;
+
 
 @property (nonatomic, assign)BOOL isGuessModel;
 @end
@@ -948,7 +950,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
         [SVProgressHUD showErrorWithStatus:@"请先下注"];
         return;
     }
-
+    
     
     GuessSureAlertView *alert= [[GuessSureAlertView alloc] initWithGuessArray:self.containerGuessArray];
     alert.delegate = self;
@@ -970,6 +972,10 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
 
 - (void)guessSureAlertSubmitToServer
 {
+    if (!self.isGuessModel) {
+        [self guessModifySubmitToServer:self.guessID];
+        return;
+    }
     
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
     
@@ -1002,7 +1008,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
     WS(weakSelf);
     
     [GMNetWorking submitGuessToServer:paramDict completion:^(id obj) {
-        [SVProgressHUD dismiss];
+        [SVProgressHUD showInfoWithStatus:@"竞猜成功"];
         
         for (int i = 0; i < [self.containerGuessArray count]; i++) {
             GuessInfoModel *model = self.containerGuessArray[i];
@@ -1019,16 +1025,16 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
         
     } fail:^(NSString *error) {
         
-        for (int i = 0; i < [self.containerGuessArray count]; i++) {
-            GuessInfoModel *model = self.containerGuessArray[i];
-            BetButton *button = (BetButton *)[weakSelf.view viewWithTag:[model.oddsID integerValue]];
-            button.isBetSelect = NO;
-            button.oddsLabel.text = button.betmodel.odds;
-            button.betmodel.drinksNumber = [NSNumber numberWithInteger:0];
-            [self updateBetButton:button];
-        }
-        
-        [weakSelf.containerGuessArray removeAllObjects];
+//        for (int i = 0; i < [self.containerGuessArray count]; i++) {
+//            GuessInfoModel *model = self.containerGuessArray[i];
+//            BetButton *button = (BetButton *)[weakSelf.view viewWithTag:[model.oddsID integerValue]];
+//            button.isBetSelect = NO;
+//            button.oddsLabel.text = button.betmodel.odds;
+//            button.betmodel.drinksNumber = [NSNumber numberWithInteger:0];
+//            [self updateBetButton:button];
+//        }
+//        
+//        [weakSelf.containerGuessArray removeAllObjects];
         
         [SVProgressHUD showErrorWithStatus:error.description];
     }];
@@ -1081,8 +1087,16 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
         betButton.betmodel.drinksNumber = [NSNumber numberWithInteger:[mode.oddsID integerValue]];
         [self updateBetButton:betButton];
         mode.betModel = betButton.betmodel;
+        [self.containerGuessArray addObject:mode];
+        [self updateBetButton:betButton];
         
     }
+    
+    self.deskInfoDist = @{@"deskName":dataSource[@"deskName"],@"id":dataSource[@"deskId"]};
+    self.beautyInfoDist = @{@"beautyWorkNumber":dataSource[@"beautyWorkNumber"],@"id":dataSource[@"beautyId"]};
+    self.manmgerInfoDist = @{@"managerWorkNumber":dataSource[@"managerWorkNumber"],@"id":dataSource[@"managerId"]};
+    //竞猜ID
+    self.guessID = dataSource[@"id"];
     
     [self.deskButton setTitle:[NSString stringWithFormat:@"%@", dataSource[@"deskName"]] forState:UIControlStateNormal];
     [self.beautyButton setTitle:[NSString stringWithFormat:@"%@", dataSource[@"beautyWorkNumber"]] forState:UIControlStateNormal];
@@ -1092,9 +1106,106 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
     
     self.title = @"修改竞猜订单";
     
+   
+  
+    
+}
+
+
+
+
+
+- (void)guessModifySubmitToServer:(NSNumber *)guessID
+{
+    
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    
+    
+    [paramDict setValue:self.deskInfoDist[@"id"] forKey:@"deskId"];
+    
+    [paramDict setValue:self.beautyInfoDist[@"id"] forKey:@"beautyId"];
+    
+    [paramDict setValue:self.manmgerInfoDist[@"id"] forKey:@"managerId"];
+    
+    [paramDict setValue:self.user.userID forKey:@"waiterId"];
+    
+    [paramDict setValue:guessID forKey:@"id"];
+    
+    NSMutableArray *guessArray = [[NSMutableArray alloc] init];
+    
+    for (GuessInfoModel *model in self.containerGuessArray) {
+        NSMutableDictionary *guessDict = [[NSMutableDictionary alloc] init];
+        [guessDict setValue:model.oddsID forKey:@"oddsId"];
+        [guessDict setValue:model.drinkNum forKey:@"drinkNum"];
+        [guessDict setValue:model.drinkID forKey:@"drinkId"];
+        [guessArray addObject:guessDict];
+    }
+    
+    
+    
+    [paramDict setValue:guessArray forKey:@"orderDetailVoList"];
+    
+    
+    [SVProgressHUD show];
+    WS(weakSelf);
+    
+    [GMNetWorking submitGuessToServer:paramDict completion:^(id obj) {
+        [SVProgressHUD showInfoWithStatus:@"修改成功"];
+        
+        for (int i = 0; i < [self.containerGuessArray count]; i++) {
+            GuessInfoModel *model = self.containerGuessArray[i];
+            BetButton *button = (BetButton *)[weakSelf.view viewWithTag:[model.oddsID integerValue]];
+            button.oddsLabel.text = button.betmodel.odds;
+            button.betmodel.drinksNumber = [NSNumber numberWithInteger:0];
+            [self updateBetButton:button];
+        }
+        
+        [weakSelf.containerGuessArray removeAllObjects];
+        self.isGuessModel = YES;
+        self.title = @"酒水竞猜";
+        
+        
+        
+    } fail:^(NSString *error) {
+        
+        for (int i = 0; i < [self.containerGuessArray count]; i++) {
+                    GuessInfoModel *model = self.containerGuessArray[i];
+                    BetButton *button = (BetButton *)[weakSelf.view viewWithTag:[model.oddsID integerValue]];
+                    button.isBetSelect = NO;
+                    button.oddsLabel.text = button.betmodel.odds;
+                    button.betmodel.drinksNumber = [NSNumber numberWithInteger:0];
+                    [self updateBetButton:button];
+                }
+        
+                [weakSelf.containerGuessArray removeAllObjects];
+        
+        [SVProgressHUD showErrorWithStatus:error.description];
+        self.isGuessModel = YES;
+        self.title = @"酒水竞猜";
+    }];
+    
     
     
     
 }
+
+//- (void)viewWillDisappear:(BOOL)animated{
+//    [super viewWillDisappear:animated];
+//    
+//    WS(weakSelf);
+//    for (int i = 0; i < [self.containerGuessArray count]; i++) {
+//        GuessInfoModel *model = self.containerGuessArray[i];
+//        BetButton *button = (BetButton *)[weakSelf.view viewWithTag:[model.oddsID integerValue]];
+//        button.isBetSelect = NO;
+//        button.oddsLabel.text = button.betmodel.odds;
+//        button.betmodel.drinksNumber = [NSNumber numberWithInteger:0];
+//        [self updateBetButton:button];
+//    }
+//    
+//    [weakSelf.containerGuessArray removeAllObjects];
+//}
+
+
+
 
 @end

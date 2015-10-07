@@ -30,6 +30,7 @@
 }
 - (void)drawRect:(CGRect)rect
 {
+    
     UIFont *font = [UIFont systemFontOfSize:8 * BILI_WIDTH];
     
     NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
@@ -59,7 +60,7 @@
         [string2 drawInRect: CGRectMake(width, i * kOneLineHeight +10 * BILI_WIDTH, width, kOneLineHeight) withAttributes:attributes];
         [string3 drawInRect: CGRectMake(width*2, i * kOneLineHeight + 10 * BILI_WIDTH, width, kOneLineHeight) withAttributes:attributes];
         [string4 drawInRect: CGRectMake(width*3, i * kOneLineHeight + 10 * BILI_WIDTH, width, kOneLineHeight) withAttributes:attributes];
-        
+      
     }
    
 }

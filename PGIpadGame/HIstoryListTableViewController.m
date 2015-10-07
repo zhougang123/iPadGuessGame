@@ -109,6 +109,8 @@
     
     CGFloat height = cell.frame.size.height;
     
+//    [cell setNeedsDisplay];
+    
     return height;
 }
 
