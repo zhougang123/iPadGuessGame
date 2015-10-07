@@ -748,7 +748,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
     
     drinksNumLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(deletebutton.frame)+ 10 * BILI_WIDTH, 10, 40 * BILI_WIDTH, TableViewCellHeight - 21)];
     drinksNumLabel.text = [selectedBetButton.betmodel.drinksNumber description];
-    drinksNumLabel.text == nil? drinksNumLabel.text = @"0":nil;
+    drinksNumLabel.text = [self.containerGuessInfo.drinkNum integerValue] > 0 ? self.containerGuessInfo.drinkNum : @"0";
     drinksNumLabel.textAlignment = NSTextAlignmentCenter;
     drinksNumLabel.font = [UIFont systemFontOfSize:10 *BILI_WIDTH];
     drinksNumLabel.layer.borderWidth = 1.0;
@@ -922,7 +922,6 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
         self.defaultDrinkID = [NSString stringWithFormat:@"%li", drinkInfo.drinksID];
         self.containerGuessInfo.drinkID = [NSString stringWithFormat:@"%li", drinkInfo.drinksID];
         self.containerGuessInfo.drinkName = drinkInfo.name;
-        self.containerGuessInfo.drinkNum  = @"0";
         [tableListView reloadData];
     }
 }
