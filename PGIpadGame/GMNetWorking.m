@@ -375,7 +375,7 @@
 + (void)cancelOrderWithTimeout:(NSTimeInterval)timeout orderID:(NSNumber *)orderID completion:(callBack)callBack fail:(ErrorString)errorString{
     
     
-    NSString *path = [APIaddress stringByAppendingString:APImodifyPassword];
+    NSString *path = [APIaddress stringByAppendingString:APIcancelGuessOrder];
     path = [path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     AFHTTPRequestOperationManager *manager = [self getManagerWithTimeout:30];

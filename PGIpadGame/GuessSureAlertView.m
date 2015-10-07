@@ -115,17 +115,29 @@
     }
     GuessInfoModel *infoModel = self.guessArray[indexPath.row];
     
-    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH/2.0, 45)];
-    label1.textAlignment = NSTextAlignmentCenter;
-    label1.textColor = [UIColor blackColor];
+    UILabel *label1 = (UILabel *) [cell.contentView viewWithTag:1001];
+    if (!label1) {
+        label1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH/2.0, 45)];
+        label1.textAlignment = NSTextAlignmentCenter;
+        label1.textColor = [UIColor blackColor];
+        label1.tag = 1001;
+        label1.text = [NSString stringWithFormat:@"竞猜: %@ %@", infoModel.betModel.betType, infoModel.betModel.odds];
+        [cell.contentView addSubview:label1];
+    }
     label1.text = [NSString stringWithFormat:@"竞猜: %@ %@", infoModel.betModel.betType, infoModel.betModel.odds];
     
-    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(0, 45, SCREEN_WIDTH/2.0, 45)];
-    label2.textAlignment = NSTextAlignmentCenter;
-    label2.textColor = [UIColor blackColor];
-    label2.text = [NSString stringWithFormat:@"投注: %@ %@", infoModel.drinkName, infoModel.drinkNum];
-    [cell.contentView addSubview:label1];
-    [cell.contentView addSubview:label2];
+    
+    UILabel *label2 = (UILabel *) [cell.contentView viewWithTag:1002];
+    if (!label2) {
+        label2 = [[UILabel alloc] initWithFrame:CGRectMake(0, 45, SCREEN_WIDTH/2.0, 45)];
+        label2.textAlignment = NSTextAlignmentCenter;
+        label2.textColor = [UIColor blackColor];
+        label2.tag = 1002;
+        label2.text = [NSString stringWithFormat:@"投注: %@ %@", infoModel.drinkName, infoModel.drinkNum];
+        [cell.contentView addSubview:label2];
+    }
+     label2.text = [NSString stringWithFormat:@"投注: %@ %@", infoModel.drinkName, infoModel.drinkNum];
+  
 
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
