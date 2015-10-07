@@ -58,7 +58,7 @@
     self.roundLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.deskLabel.frame) +25 *BILI_WIDTH, 10, CGRectGetWidth(self.deskLabel.frame), CGRectGetHeight(self.deskLabel.frame))];
     self.roundLabel.text = @"第3轮";
     self.roundLabel.font = [UIFont systemFontOfSize:10 *BILI_WIDTH];
-   
+    
     
     CGFloat buttonW = 40 *BILI_WIDTH;
     self.modifyBut = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - buttonW*2 - 8*BILI_WIDTH*2, 10, buttonW, CGRectGetHeight(self.roundLabel.frame))];
@@ -87,13 +87,13 @@
     UIView *lineView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.roundLabel.frame) +10 *BILI_WIDTH, SCREEN_WIDTH, 1)];
     lineView.backgroundColor = UIColorFromRGB(0xE4E4E4);
     
-//    20 * BILI_WIDTH + 10 *BILI_WIDTH + 5 * BILI_WIDTH + 10 * BILI_WIDTH
+    
     //FootView
     UILabel *timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(10 *BILI_WIDTH, CGRectGetMaxY(lineView.frame) + 5*BILI_WIDTH, 30 *BILI_WIDTH, 10 *BILI_WIDTH)];
     timeLabel.text = @"竞猜时间:";
     timeLabel.textColor = UIColorFromRGB(0x828282);
     timeLabel.font = [UIFont systemFontOfSize:6.5 *BILI_WIDTH];
-   
+    
     
     self.timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(timeLabel.frame) ,  CGRectGetMaxY(lineView.frame) + 5*BILI_WIDTH, 40 *BILI_WIDTH, 10 *BILI_WIDTH)];
     self.timeLabel.textColor = UIColorFromRGB(0x828282);
@@ -210,16 +210,14 @@
 }
 
 
-- (void)drawTableCellWithDetials:(NSArray *)detials
+- (CGFloat)drawTableCellWithDetials:(NSArray *)detials
 {
-    [self setNeedsLayout];
-    
     self.containerView.frame = CGRectMake(10 * BILI_WIDTH, CGRectGetMaxY(self.jialiLabel.frame) + 10*BILI_WIDTH, SCREEN_WIDTH - 20 *BILI_WIDTH, kOneLineHeight * [detials count] +kOneLineHeight);
     self.rectView.frame = CGRectMake(0, CGRectGetMaxY(self.containerView.frame) +kOneLineHeight, SCREEN_WIDTH, 4);
     
     self.containerView.detialsArray = detials;
     
-    [self.containerView setNeedsDisplay];
+    return CGRectGetMaxY(self.rectView.frame);
 }
 
 
@@ -229,7 +227,7 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 
