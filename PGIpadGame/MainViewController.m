@@ -922,6 +922,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
         self.defaultDrinkID = [NSString stringWithFormat:@"%li", drinkInfo.drinksID];
         self.containerGuessInfo.drinkID = [NSString stringWithFormat:@"%li", drinkInfo.drinksID];
         self.containerGuessInfo.drinkName = drinkInfo.name;
+        self.containerGuessInfo.drinkNum  = @"0";
         [tableListView reloadData];
     }
 }
