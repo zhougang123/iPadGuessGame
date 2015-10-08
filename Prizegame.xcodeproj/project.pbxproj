@@ -71,12 +71,12 @@
 /* Begin PBXFileReference section */
 		04CFE8D81BC2316A00F68505 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		814141447E5A8851F278966F /* Pods-PGIpadGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PGIpadGame.release.xcconfig"; path = "Pods/Target Support Files/Pods-PGIpadGame/Pods-PGIpadGame.release.xcconfig"; sourceTree = "<group>"; };
-		989910E21BC1648100E84C66 /* PGIpadGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PGIpadGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		989910E21BC1648100E84C66 /* Prizegame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Prizegame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		989910E61BC1648100E84C66 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		989910E71BC1648100E84C66 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		989910F21BC1648100E84C66 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		989910F51BC1648100E84C66 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		989910FB1BC1648100E84C66 /* PGIpadGameTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PGIpadGameTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		989910FB1BC1648100E84C66 /* PrizegameTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PrizegameTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		989911001BC1648100E84C66 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		989911011BC1648100E84C66 /* PGIpadGameTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGIpadGameTests.m; sourceTree = "<group>"; };
 		9899110B1BC164AE00E84C66 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -189,8 +189,8 @@
 		989910E31BC1648100E84C66 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				989910E21BC1648100E84C66 /* PGIpadGame.app */,
-				989910FB1BC1648100E84C66 /* PGIpadGameTests.xctest */,
+				989910E21BC1648100E84C66 /* Prizegame.app */,
+				989910FB1BC1648100E84C66 /* PrizegameTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -307,9 +307,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		989910E11BC1648100E84C66 /* PGIpadGame */ = {
+		989910E11BC1648100E84C66 /* Prizegame */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 989911051BC1648100E84C66 /* Build configuration list for PBXNativeTarget "PGIpadGame" */;
+			buildConfigurationList = 989911051BC1648100E84C66 /* Build configuration list for PBXNativeTarget "Prizegame" */;
 			buildPhases = (
 				3BB7C012DBC6E7115067C8DC /* Check Pods Manifest.lock */,
 				989910DE1BC1648100E84C66 /* Sources */,
@@ -321,14 +321,14 @@
 			);
 			dependencies = (
 			);
-			name = PGIpadGame;
+			name = Prizegame;
 			productName = PGIpadGame;
-			productReference = 989910E21BC1648100E84C66 /* PGIpadGame.app */;
+			productReference = 989910E21BC1648100E84C66 /* Prizegame.app */;
 			productType = "com.apple.product-type.application";
 		};
-		989910FA1BC1648100E84C66 /* PGIpadGameTests */ = {
+		989910FA1BC1648100E84C66 /* PrizegameTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 989911081BC1648100E84C66 /* Build configuration list for PBXNativeTarget "PGIpadGameTests" */;
+			buildConfigurationList = 989911081BC1648100E84C66 /* Build configuration list for PBXNativeTarget "PrizegameTests" */;
 			buildPhases = (
 				989910F71BC1648100E84C66 /* Sources */,
 				989910F81BC1648100E84C66 /* Frameworks */,
@@ -339,9 +339,9 @@
 			dependencies = (
 				989910FD1BC1648100E84C66 /* PBXTargetDependency */,
 			);
-			name = PGIpadGameTests;
+			name = PrizegameTests;
 			productName = PGIpadGameTests;
-			productReference = 989910FB1BC1648100E84C66 /* PGIpadGameTests.xctest */;
+			productReference = 989910FB1BC1648100E84C66 /* PrizegameTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -362,7 +362,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 989910DD1BC1648100E84C66 /* Build configuration list for PBXProject "PGIpadGame" */;
+			buildConfigurationList = 989910DD1BC1648100E84C66 /* Build configuration list for PBXProject "Prizegame" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -375,8 +375,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				989910E11BC1648100E84C66 /* PGIpadGame */,
-				989910FA1BC1648100E84C66 /* PGIpadGameTests */,
+				989910E11BC1648100E84C66 /* Prizegame */,
+				989910FA1BC1648100E84C66 /* PrizegameTests */,
 			);
 		};
 /* End PBXProject section */
@@ -499,7 +499,7 @@
 /* Begin PBXTargetDependency section */
 		989910FD1BC1648100E84C66 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 989910E11BC1648100E84C66 /* PGIpadGame */;
+			target = 989910E11BC1648100E84C66 /* Prizegame */;
 			targetProxy = 989910FC1BC1648100E84C66 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -606,7 +606,7 @@
 				INFOPLIST_FILE = PGIpadGame/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Prizegame;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
@@ -621,7 +621,7 @@
 				INFOPLIST_FILE = PGIpadGame/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Prizegame;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
@@ -640,7 +640,7 @@
 				);
 				INFOPLIST_FILE = PGIpadGameTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = PrizegameTests;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PGIpadGame.app/PGIpadGame";
 			};
 			name = Debug;
@@ -655,7 +655,7 @@
 				);
 				INFOPLIST_FILE = PGIpadGameTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = PrizegameTests;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PGIpadGame.app/PGIpadGame";
 			};
 			name = Release;
@@ -663,7 +663,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		989910DD1BC1648100E84C66 /* Build configuration list for PBXProject "PGIpadGame" */ = {
+		989910DD1BC1648100E84C66 /* Build configuration list for PBXProject "Prizegame" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				989911031BC1648100E84C66 /* Debug */,
@@ -672,7 +672,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		989911051BC1648100E84C66 /* Build configuration list for PBXNativeTarget "PGIpadGame" */ = {
+		989911051BC1648100E84C66 /* Build configuration list for PBXNativeTarget "Prizegame" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				989911061BC1648100E84C66 /* Debug */,
@@ -681,7 +681,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		989911081BC1648100E84C66 /* Build configuration list for PBXNativeTarget "PGIpadGameTests" */ = {
+		989911081BC1648100E84C66 /* Build configuration list for PBXNativeTarget "PrizegameTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				989911091BC1648100E84C66 /* Debug */,
