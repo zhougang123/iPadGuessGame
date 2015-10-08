@@ -13,6 +13,7 @@
 #import "DeskInfoModel.h"
 #import "GuessInfoModel.h"
 #import "HIstoryListTableViewController.h"
+#import "LoginViewContoller.h"
 
 
 #define TableViewCellHeight 30 * BILI_WIDTH
@@ -30,7 +31,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
 };
 
 
-@interface MainViewController ()<GuessSureAlertViewDelegate,HistoryListTableViewControllerDelegate, UITableViewDataSource,UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
+@interface MainViewController ()<GuessSureAlertViewDelegate,HistoryListTableViewControllerDelegate, UITableViewDataSource,UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate,UIAlertViewDelegate>
 {
     DeskInfoModel *selectedDeskInfo;//选中的桌信息(桌号、佳丽、客户经理)
     BetButton *selectedBetButton;//选中的下注按钮(下注类型、赔率、酒水、酒水数量)
@@ -344,8 +345,13 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
     UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:historyBut];
     self.navigationItem.rightBarButtonItem = item;
     
+    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"top_icon_exit"] style:UIBarButtonItemStylePlain target:self action:@selector(exitLogin)];
+        self.navigationItem.leftBarButtonItem = leftItem;
+    
     CGFloat hederViewHeight = 44 * BILI_WIDTH;
     UIView *hederView = [[UIView alloc]initWithFrame:CGRectMake(0, STATUS_AND_NAVI_BAR , SCREEN_WIDTH, hederViewHeight)];
+    self.navigationItem.leftBarButtonItem.tintColor = [UIColor lightGrayColor];
+    
     hederView.backgroundColor = [UIColor whiteColor];
     //创建hederView按钮
     
@@ -399,7 +405,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
     
     if (self.isGuessModel == NO) {
         
-        [SVProgressHUD showErrorWithStatus:@"目前为修改订单模式，不可修改房间信息"];
+        [SVProgressHUD showErrorWithStatus:@"目前为修改订单模式，不可修改桌号"];
         return;
     }
     [GMNetWorking getDeskListWithTimeout:30 completion:^(id respDesk) {
@@ -425,7 +431,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
     WS(weakSelf);
     if (self.isGuessModel == NO) {
         
-        [SVProgressHUD showErrorWithStatus:@"目前为修改订单模式，不可修改房间信息"];
+        [SVProgressHUD showErrorWithStatus:@"目前为修改订单模式，不可修改佳丽"];
         return;
     }
     [GMNetWorking getBeautyListWithTimeout:30 completion:^(id respBeauty) {
@@ -450,7 +456,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
     WS(weakSelf);
     if (self.isGuessModel == NO) {
         
-        [SVProgressHUD showErrorWithStatus:@"目前为修改订单模式，不可修改房间信息"];
+        [SVProgressHUD showErrorWithStatus:@"目前为修改订单模式，不可修改经理"];
         return;
     }
     [GMNetWorking getManagerListWithTimeout:30.0 completion:^(id respManager) {
@@ -1202,21 +1208,30 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
     
 }
 
-//- (void)viewWillDisappear:(BOOL)animated{
-//    [super viewWillDisappear:animated];
-//    
-//    WS(weakSelf);
-//    for (int i = 0; i < [self.containerGuessArray count]; i++) {
-//        GuessInfoModel *model = self.containerGuessArray[i];
-//        BetButton *button = (BetButton *)[weakSelf.view viewWithTag:[model.oddsID integerValue]];
-//        button.isBetSelect = NO;
-//        button.oddsLabel.text = button.betmodel.odds;
-//        button.betmodel.drinksNumber = [NSNumber numberWithInteger:0];
-//        [self updateBetButton:button];
-//    }
-//    
-//    [weakSelf.containerGuessArray removeAllObjects];
-//}
+
+//退出登录
+- (void)exitLogin{
+    
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您确定要退出登录吗" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    alert.tag = 1000;
+    [alert show];
+    
+   
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == [alertView cancelButtonIndex]) {
+        return;
+    }
+    
+    if (alertView.tag == 1000) {
+        LoginViewContoller *loginVC = [[LoginViewContoller alloc]init];
+        UINavigationController *loginNavi = [[UINavigationController alloc]initWithRootViewController:loginVC];
+        [self.navigationController presentViewController:loginNavi animated:NO completion:^{
+            
+        }];
+    }
+}
 
 
 

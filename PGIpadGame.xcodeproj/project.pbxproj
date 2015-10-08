@@ -54,6 +54,8 @@
 		989911701BC164AE00E84C66 /* NSDictionary+PGDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 989911431BC164AE00E84C66 /* NSDictionary+PGDictionary.m */; };
 		989911711BC164AE00E84C66 /* PGCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 989911451BC164AE00E84C66 /* PGCustomView.m */; };
 		989911721BC164AE00E84C66 /* PGUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 989911481BC164AE00E84C66 /* PGUser.m */; };
+		98DA61FC1BC6024600A357BD /* top_icon_exit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98DA61FA1BC6024600A357BD /* top_icon_exit@2x.png */; };
+		98DA61FD1BC6024600A357BD /* top_icon_exit@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98DA61FB1BC6024600A357BD /* top_icon_exit@3x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,6 +142,8 @@
 		989911471BC164AE00E84C66 /* PGUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGUser.h; sourceTree = "<group>"; };
 		989911481BC164AE00E84C66 /* PGUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGUser.m; sourceTree = "<group>"; };
 		98D680F6DA758E5D3E51D4AB /* Pods-PGIpadGame.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PGIpadGame.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PGIpadGame/Pods-PGIpadGame.debug.xcconfig"; sourceTree = "<group>"; };
+		98DA61FA1BC6024600A357BD /* top_icon_exit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "top_icon_exit@2x.png"; sourceTree = "<group>"; };
+		98DA61FB1BC6024600A357BD /* top_icon_exit@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "top_icon_exit@3x.png"; sourceTree = "<group>"; };
 		E88C3F53A065856BEAD62C19 /* libPods-PGIpadGame.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PGIpadGame.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -256,6 +260,8 @@
 				989911371BC164AE00E84C66 /* jiushui_icon_-@3x.png */,
 				989911381BC164AE00E84C66 /* jiushui_icon_+@2x.png */,
 				989911391BC164AE00E84C66 /* jiushui_icon_+@3x.png */,
+				98DA61FA1BC6024600A357BD /* top_icon_exit@2x.png */,
+				98DA61FB1BC6024600A357BD /* top_icon_exit@3x.png */,
 				989910F21BC1648100E84C66 /* Images.xcassets */,
 				989910F41BC1648100E84C66 /* LaunchScreen.xib */,
 				989910E51BC1648100E84C66 /* Supporting Files */,
@@ -395,8 +401,10 @@
 				989910F31BC1648100E84C66 /* Images.xcassets in Resources */,
 				989911671BC164AE00E84C66 /* jingcai_button_submitb@3x.png in Resources */,
 				989911601BC164AE00E84C66 /* jincai_button_press@2x.png in Resources */,
+				98DA61FC1BC6024600A357BD /* top_icon_exit@2x.png in Resources */,
 				989911561BC164AE00E84C66 /* jincai_icon_jiali@2x.png in Resources */,
 				9899115A1BC164AE00E84C66 /* jincai_icon_manager@2x.png in Resources */,
+				98DA61FD1BC6024600A357BD /* top_icon_exit@3x.png in Resources */,
 				9899115F1BC164AE00E84C66 /* jincai_button_default@3x.png in Resources */,
 				989911611BC164AE00E84C66 /* jincai_button_press@3x.png in Resources */,
 				989911641BC164AE00E84C66 /* jingcai_button_submita@2x.png in Resources */,

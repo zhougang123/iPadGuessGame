@@ -9,6 +9,9 @@
 #import "HIstoryListTableViewController.h"
 #import "HistoryTableViewCell.h"
 
+
+#define kOneLineHeight (15 * BILI_WIDTH)
+
 @interface HIstoryListTableViewController ()<UIAlertViewDelegate,DZNEmptyDataSetDelegate,DZNEmptyDataSetSource>
 
 @property (nonatomic ,strong)NSMutableArray *dataSource;
@@ -105,11 +108,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    HistoryTableViewCell *cell = (HistoryTableViewCell *) [self tableView:tableView cellForRowAtIndexPath:indexPath];
+//    HistoryTableViewCell *cell = (HistoryTableViewCell *) [self tableView:tableView cellForRowAtIndexPath:indexPath];
+//    
+//    CGFloat height = cell.frame.size.height;
     
-    CGFloat height = cell.frame.size.height;
-    
-    //    [cell setNeedsDisplay];
+    NSArray *dataArr = [self.dataSource[indexPath.row] objectForKey:@"orderDetailVoList"];
+    CGFloat height = 64 *BILI_WIDTH +5 + 10 *BILI_WIDTH +kOneLineHeight * [dataArr count] +kOneLineHeight;
     
     return height;
 }
@@ -176,7 +180,7 @@
 
 - (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
 {
-    NSString *text = @"您也可以点击下面的按钮重新加载";
+    NSString *text = @"您也可以点击文字重新加载";
     
     NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
     paragraph.lineBreakMode = NSLineBreakByWordWrapping;
@@ -213,6 +217,7 @@
 - (void)emptyDataSetDidTapView:(UIScrollView *)scrollView
 {
     // Do something
+    [self netWorking];
 }
 
 
