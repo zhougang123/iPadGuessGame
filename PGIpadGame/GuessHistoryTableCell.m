@@ -25,6 +25,9 @@
 @property(nonatomic, strong) PGCustomView *customView;
 
 @property(nonatomic, strong) UILabel *resultLabel;
+
+@property(nonatomic, strong) UILabel *statusLabel;
+
 @end
 
 
@@ -32,16 +35,16 @@
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        self.deskNameLab = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, SCREEN_WIDTH/4.0, 64)];
+        self.deskNameLab = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, SCREEN_WIDTH/4.0, 80)];
         self.deskNameLab.font = [UIFont boldSystemFontOfSize:10 *BILI_WIDTH];
         self.deskNameLab.textAlignment = NSTextAlignmentLeft;
 
-        self.roundLab = [[UILabel alloc] initWithFrame:CGRectMake(20 + SCREEN_WIDTH/4.0, 0, SCREEN_WIDTH/4.0, 64)];
+        self.roundLab = [[UILabel alloc] initWithFrame:CGRectMake(20 + SCREEN_WIDTH/4.0, 0, SCREEN_WIDTH/4.0, 80)];
         self.roundLab.font = [UIFont boldSystemFontOfSize:10 *BILI_WIDTH];
         self.roundLab.textAlignment = NSTextAlignmentLeft;
         
         self.cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.cancelButton.frame = CGRectMake(SCREEN_WIDTH - 20 - 40 * BILI_WIDTH, 12, 40 * BILI_WIDTH, 40);
+        self.cancelButton.frame = CGRectMake(SCREEN_WIDTH - 20 - 40 * BILI_WIDTH, 20, 40 * BILI_WIDTH, 40);
         self.cancelButton.layer.cornerRadius = 3;
         self.cancelButton.layer.borderColor = [UIColor lightGrayColor].CGColor;
         self.cancelButton.layer.borderWidth = 1.0;
@@ -49,20 +52,20 @@
         [self.cancelButton setTitle:@"取 消" forState:UIControlStateNormal];
         
         self.modifyButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.modifyButton.frame = CGRectMake(SCREEN_WIDTH - 30 - 80 * BILI_WIDTH, 12, 40 * BILI_WIDTH, 40);
+        self.modifyButton.frame = CGRectMake(SCREEN_WIDTH - 30 - 80 * BILI_WIDTH, 20, 40 * BILI_WIDTH, 40);
         self.modifyButton.layer.cornerRadius = 3;
         self.modifyButton.layer.borderColor = [UIColor lightGrayColor].CGColor;
         self.modifyButton.layer.borderWidth = 1.0;
         [self.modifyButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [self.modifyButton setTitle:@"修 改" forState:UIControlStateNormal];
         
-        self.resultLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.modifyButton.frame) - 40 - 40 * BILI_WIDTH, 12, 40 * BILI_WIDTH, 40)];
+        self.resultLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.modifyButton.frame) - 40 - 40 * BILI_WIDTH, 20, 40 * BILI_WIDTH, 40)];
         self.resultLabel.font = [UIFont systemFontOfSize:10 *BILI_WIDTH];
         self.resultLabel.textAlignment = NSTextAlignmentCenter;
         self.resultLabel.textColor = [UIColor redColor];
         self.resultLabel.text = @"4 , 5";
         
-        UIView *greyLine = [[UIView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, 1)];
+        UIView *greyLine = [[UIView alloc] initWithFrame:CGRectMake(0, 80, SCREEN_WIDTH, 1)];
         greyLine.backgroundColor = [UIColor lightGrayColor];
         
         
@@ -131,6 +134,7 @@
     self.customView.detialsArray = orderArray;
     
 }
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
