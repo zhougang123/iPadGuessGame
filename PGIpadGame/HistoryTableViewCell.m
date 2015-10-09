@@ -212,6 +212,8 @@
 
 - (CGFloat)drawTableCellWithDetials:(NSArray *)detials
 {
+    
+    
     self.containerView.frame = CGRectMake(10 * BILI_WIDTH, CGRectGetMaxY(self.jialiLabel.frame) + 10*BILI_WIDTH, SCREEN_WIDTH - 20 *BILI_WIDTH, kOneLineHeight * [detials count] +kOneLineHeight);
     self.rectView.frame = CGRectMake(0, CGRectGetMaxY(self.containerView.frame) +kOneLineHeight, SCREEN_WIDTH, 4);
     

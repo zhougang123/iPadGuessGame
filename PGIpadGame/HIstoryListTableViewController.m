@@ -108,8 +108,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-//    HistoryTableViewCell *cell = (HistoryTableViewCell *) [self tableView:tableView cellForRowAtIndexPath:indexPath];
-//    
+    HistoryTableViewCell *cell = (HistoryTableViewCell *) [self tableView:tableView cellForRowAtIndexPath:indexPath];
+//
 //    CGFloat height = cell.frame.size.height;
     
     NSArray *dataArr = [self.dataSource[indexPath.row] objectForKey:@"orderDetailVoList"];
