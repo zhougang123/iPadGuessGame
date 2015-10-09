@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#define kOneLineHeight (15 * BILI_WIDTH)
+#define kOneLineHeight 50
 
 @interface PGCustomView : UIView
 

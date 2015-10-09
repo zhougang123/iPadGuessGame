@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04D844551BC7F476001E2958 /* GuessHistoryTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D844541BC7F476001E2958 /* GuessHistoryTableCell.m */; settings = {ASSET_TAGS = (); }; };
 		48F3C6B3771D7F8D4CD88226 /* libPods-PGIpadGame.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E88C3F53A065856BEAD62C19 /* libPods-PGIpadGame.a */; };
 		989910E81BC1648100E84C66 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 989910E71BC1648100E84C66 /* main.m */; };
 		989910F31BC1648100E84C66 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 989910F21BC1648100E84C66 /* Images.xcassets */; };
@@ -70,6 +71,8 @@
 
 /* Begin PBXFileReference section */
 		04CFE8D81BC2316A00F68505 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		04D844531BC7F476001E2958 /* GuessHistoryTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuessHistoryTableCell.h; sourceTree = "<group>"; };
+		04D844541BC7F476001E2958 /* GuessHistoryTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuessHistoryTableCell.m; sourceTree = "<group>"; };
 		814141447E5A8851F278966F /* Pods-PGIpadGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PGIpadGame.release.xcconfig"; path = "Pods/Target Support Files/Pods-PGIpadGame/Pods-PGIpadGame.release.xcconfig"; sourceTree = "<group>"; };
 		989910E21BC1648100E84C66 /* Prizegame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Prizegame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		989910E61BC1648100E84C66 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -223,6 +226,8 @@
 				989911211BC164AE00E84C66 /* HIstoryListTableViewController.m */,
 				989911221BC164AE00E84C66 /* HistoryTableViewCell.h */,
 				989911231BC164AE00E84C66 /* HistoryTableViewCell.m */,
+				04D844531BC7F476001E2958 /* GuessHistoryTableCell.h */,
+				04D844541BC7F476001E2958 /* GuessHistoryTableCell.m */,
 				9899113A1BC164AE00E84C66 /* JsonParser.h */,
 				9899113B1BC164AE00E84C66 /* JsonParser.m */,
 				9899113C1BC164AE00E84C66 /* LoginViewContoller.h */,
@@ -466,6 +471,7 @@
 				9899114A1BC164AE00E84C66 /* BaseModel.m in Sources */,
 				989911701BC164AE00E84C66 /* NSDictionary+PGDictionary.m in Sources */,
 				9899114C1BC164AE00E84C66 /* BetModel.m in Sources */,
+				04D844551BC7F476001E2958 /* GuessHistoryTableCell.m in Sources */,
 				989911711BC164AE00E84C66 /* PGCustomView.m in Sources */,
 				989911511BC164AE00E84C66 /* GMNetWorking.m in Sources */,
 				9899116E1BC164AE00E84C66 /* MainViewController.m in Sources */,
@@ -601,6 +607,7 @@
 			baseConfigurationReference = 98D680F6DA758E5D3E51D4AB /* Pods-PGIpadGame.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ENABLE_BITCODE = NO;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/PGIpadGame/PrefixHeader.pch";
 				INFOPLIST_FILE = PGIpadGame/Info.plist;
@@ -616,6 +623,7 @@
 			baseConfigurationReference = 814141447E5A8851F278966F /* Pods-PGIpadGame.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ENABLE_BITCODE = NO;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/PGIpadGame/PrefixHeader.pch";
 				INFOPLIST_FILE = PGIpadGame/Info.plist;
