@@ -39,6 +39,8 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
     UITableView *tableListView;//列表（桌信息列表、下注列表）
     
     UILabel *drinksNumLabel;//计数label
+    
+    UIButton *historyBut;
 }
 
 @property (nonatomic ,strong)NSMutableArray *deskInfoArray;
@@ -335,7 +337,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
 
 - (UIView *)createHederView{
     
-    UIButton *historyBut = [UIButton buttonWithType:UIButtonTypeCustom];
+    historyBut = [UIButton buttonWithType:UIButtonTypeCustom];
     historyBut.frame = CGRectMake(0, 0, 30 * BILI_WIDTH, 20 * BILI_WIDTH);
     [historyBut setTitle:@"竞猜历史" forState:UIControlStateNormal];
     [historyBut setTitleColor:TextGrayColor forState:UIControlStateNormal];
@@ -595,11 +597,22 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
 //点击了竞猜历史按钮
 - (void)historyButtonAction:(UIButton *)but{
     
-    HIstoryListTableViewController *historyVC = [[HIstoryListTableViewController alloc]init];
-    historyVC.user = self.user;
-    historyVC.delegate = self;
-    historyVC.title = @"竞猜历史";
-    [self.navigationController pushViewController:historyVC animated:YES];
+    if (self.isGuessModel) {
+        //竞猜模式
+        
+        HIstoryListTableViewController *historyVC = [[HIstoryListTableViewController alloc]init];
+        historyVC.user = self.user;
+        historyVC.delegate = self;
+        historyVC.title = @"竞猜历史";
+        [self.navigationController pushViewController:historyVC animated:YES];
+        
+    }else{
+        //修改模式
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您确定要退出修改吗" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        alertView.tag = 888;
+        [alertView show];
+    }
+    
 }
 
 //点击了阴影按钮
@@ -818,7 +831,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    NSString *identifier = tableView.tag == TableViewType_DeskInfo? @"DeskInfoCell" : @"BetInfoCell";
+//    NSString *identifier = tableView.tag == TableViewType_DeskInfo? @"DeskInfoCell" : @"BetInfoCell";
     
     UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"BetInfoCell"];
 //    if (!cell) {
@@ -1126,6 +1139,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
     self.isGuessModel = NO;///竞猜模式下不可以修改房间信息
     
     self.title = @"修改竞猜订单";
+    [historyBut setTitle:@"退出修改" forState:UIControlStateNormal];
     
     
 }
@@ -1184,8 +1198,18 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
         }
         
         [weakSelf.containerGuessArray removeAllObjects];
+        
+        self.deskInfoDist = nil;
+        self.beautyInfoDist = nil;
+        self.manmgerInfoDist = nil;
+        
+        [self.deskButton setTitle:@"桌号" forState:UIControlStateNormal];
+        [self.beautyButton setTitle:@"佳丽" forState:UIControlStateNormal];
+        [self.managerButton setTitle:@"经理" forState:UIControlStateNormal];
+        
         self.isGuessModel = YES;
         self.title = @"酒水竞猜";
+        [historyBut setTitle:@"竞猜历史" forState:UIControlStateNormal];
         
         
         
@@ -1202,9 +1226,18 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
         
                 [weakSelf.containerGuessArray removeAllObjects];
         
+        self.deskInfoDist = nil;
+        self.beautyInfoDist = nil;
+        self.manmgerInfoDist = nil;
+        
+        [self.deskButton setTitle:@"桌号" forState:UIControlStateNormal];
+        [self.beautyButton setTitle:@"佳丽" forState:UIControlStateNormal];
+        [self.managerButton setTitle:@"经理" forState:UIControlStateNormal];
+        
         [SVProgressHUD showErrorWithStatus:error.description];
         self.isGuessModel = YES;
         self.title = @"酒水竞猜";
+        [historyBut setTitle:@"竞猜历史" forState:UIControlStateNormal];
     }];
     
     
@@ -1234,6 +1267,35 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
         [self.navigationController presentViewController:loginNavi animated:NO completion:^{
             
         }];
+    }else if (alertView.tag == 888){
+        //退出竞猜
+        
+        //1.修改右边按钮文字  2.修改title  3.清除下注按钮数据  4.清除佳丽经理桌号数据 5.isguessModle设为YES
+
+         [historyBut setTitle:@"竞猜历史" forState:UIControlStateNormal];
+        self.title = @"酒水竞猜";
+        
+        //清楚以前的赌注
+        for (int i = 0; i < [self.containerGuessArray count]; i++) {
+            GuessInfoModel *model = self.containerGuessArray[i];
+            BetButton *button = (BetButton *)[self.view viewWithTag:[model.oddsID integerValue]];
+            button.oddsLabel.text = button.betmodel.odds;
+            button.betmodel.drinksNumber = [NSNumber numberWithInteger:0];
+            [self updateBetButton:button];
+        }
+        self.containerGuessInfo = nil;
+        selectedBetButton = nil;
+        [self.containerGuessArray removeAllObjects];
+        
+        self.deskInfoDist = nil;
+        self.beautyInfoDist = nil;
+        self.manmgerInfoDist = nil;
+        
+        [self.deskButton setTitle:@"桌号" forState:UIControlStateNormal];
+        [self.beautyButton setTitle:@"佳丽" forState:UIControlStateNormal];
+        [self.managerButton setTitle:@"经理" forState:UIControlStateNormal];
+        
+        self.isGuessModel = YES;
     }
 }
 
