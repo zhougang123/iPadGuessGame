@@ -7,12 +7,12 @@
 //
 
 #import "HIstoryListTableViewController.h"
-#import "GuessHistoryTableCell.h"
+#import "HistoryTableViewCell.h"
 
 
 #define kOneLineHeight (15 * BILI_WIDTH)
 
-@interface HIstoryListTableViewController ()<UIAlertViewDelegate,UITableViewDataSource,UITableViewDelegate>
+@interface HIstoryListTableViewController ()<UIAlertViewDelegate,DZNEmptyDataSetDelegate,DZNEmptyDataSetSource>
 
 @property (nonatomic ,strong)NSMutableArray *dataSource;
 
@@ -24,20 +24,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = UIColorFromRGB(0xECECEF);
-    
-    self.dataSource = [[NSMutableArray alloc] init];
-    
     [self netWorking];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cellModifyButtonAction:) name:@"cellModifyButtonAction" object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cellCancelButtonAction:) name:@"cellCancelButtonAction" object:nil];
     
-    self.tableView.dataSource = self;
-    self.tableView.delegate = self;
-    self.tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 4)];
-    self.tableView.tableFooterView.backgroundColor = [UIColor lightGrayColor];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.emptyDataSetDelegate = self;
+    self.tableView.emptyDataSetSource = self;
+    self.tableView.tableFooterView = [[UIView alloc]init];
     WS(weakself);
     self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         
@@ -59,19 +54,19 @@
     [GMNetWorking getHistoryListWithTimeout:15 completion:^(id obj) {
         [SVProgressHUD dismiss];
         [weakself.tableView.header endRefreshing];
-        NSArray *infoArray = (NSArray *)obj;
-        if ([infoArray count] > 0) {
-            [weakself.dataSource removeAllObjects];
-            for (int i = 0; i < [obj count]; i++) {
-                NSDictionary *dictInfo = obj[i];
-                NSArray *guessArray = [dictInfo objectForKey:@"orderDetailVoList"];
-                if ([guessArray count] > 0) {
-                    [weakself.dataSource addObject:dictInfo];
-                }
-                
+        self.dataSource = [obj mutableCopy];
+        
+        NSMutableArray *indexArray = [NSMutableArray array];
+        [weakself.dataSource enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            
+            NSArray *detailArray = [obj objectForKey:@"orderDetailVoList"];
+            if (detailArray.count<=0) {
+                [indexArray addObject:obj];
             }
-        }else{
-            [weakself.dataSource removeAllObjects];
+        }];
+        
+        for (id obj in indexArray) {
+            [weakself.dataSource removeObject:obj];
         }
         
         [weakself.tableView reloadData];
@@ -84,61 +79,45 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return [self.dataSource count];
-}
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return 1;
+    return self.dataSource.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    static NSString *cellID = @"cell";
-    GuessHistoryTableCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    HistoryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     
-    if (cell == nil) {
-        cell = [[GuessHistoryTableCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+    if (!cell) {
+        cell = [[HistoryTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
-    [cell drawHistoryTableCellWithInfo:self.dataSource[indexPath.section]];
+    
+    NSDictionary *dic = self.dataSource[indexPath.row];
+    cell.dataSource = dic;
+    CGFloat cellH = [cell drawTableCellWithDetials:[dic objectForKey:@"orderDetailVoList"]];
+    CGRect frame = cell.frame;
+    frame.size.height = cellH;
+    cell.frame = frame;
+    
     return cell;
 }
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-
-    CGFloat rowHeight = 128 + 20 + 25;
-    NSDictionary *dict = self.dataSource[indexPath.section];
-    NSArray *orderArray = [dict objectForKey:@"orderDetailVoList"];
-    rowHeight = rowHeight + [orderArray count] * 50;
-    return rowHeight;
+    HistoryTableViewCell *cell = (HistoryTableViewCell *) [self tableView:tableView cellForRowAtIndexPath:indexPath];
+    
+    CGFloat height = cell.frame.size.height;
+    
+//    NSArray *dataArr = [self.dataSource[indexPath.row] objectForKey:@"orderDetailVoList"];
+//    CGFloat height = 64 *BILI_WIDTH +5 + 10 *BILI_WIDTH +kOneLineHeight * [dataArr count] +kOneLineHeight;
+    
+    return height;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    CGFloat headHeight = 0;
-    if (section == 0) {
-        headHeight = 0;
-    }else{
-        headHeight = 4;
-    }
-    return headHeight;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    if (section == 0) {
-        return nil;
-    }
-    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 4)];
-    headView.backgroundColor = [UIColor lightGrayColor];
-
-    return headView;
-}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -295,7 +274,6 @@
     
     
 }
-
 
 /*
  // Override to support conditional editing of the table view.

@@ -18,7 +18,7 @@
 @property (nonatomic ,strong)UILabel *managerLabel;
 @property (nonatomic ,strong)UIButton *modifyBut;
 @property (nonatomic ,strong)UIButton *cancelBut;
-
+@property (nonatomic ,strong)UILabel *resultLabel;
 @property (nonatomic ,strong)UILabel *statuLabel;
 
 
@@ -58,6 +58,12 @@
     self.roundLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.deskLabel.frame) +25 *BILI_WIDTH, 10, CGRectGetWidth(self.deskLabel.frame), CGRectGetHeight(self.deskLabel.frame))];
     self.roundLabel.text = @"第3轮";
     self.roundLabel.font = [UIFont systemFontOfSize:10 *BILI_WIDTH];
+    
+    self.resultLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.roundLabel.frame) +25 *BILI_WIDTH, 10, CGRectGetWidth(self.roundLabel.frame), CGRectGetHeight(self.roundLabel.frame))];
+    self.resultLabel.text = @"4,5";
+    self.resultLabel.font = [UIFont systemFontOfSize:12 *BILI_WIDTH];
+    self.resultLabel.textColor = UIColorFromRGB(0x28ccfc);
+    self.resultLabel.hidden = YES;
     
     
     CGFloat buttonW = 40 *BILI_WIDTH;
@@ -145,6 +151,7 @@
     [self addSubview:self.cancelBut];
     [self addSubview:self.cancelBut];
     [self addSubview:self.modifyBut];
+    [self addSubview:self.resultLabel];
     [self addSubview:self.roundLabel];
     [self addSubview:self.deskLabel];
     
@@ -181,12 +188,15 @@
     
     if ([[self.dataSource objectforNotNullKey:@"status"] isEqualToString:@"进行中"]) {
         self.statuLabel.hidden = YES;
+        self.resultLabel.hidden = YES;
         self.modifyBut.hidden = NO;
         self.cancelBut.hidden = NO;
     }else{
         self.modifyBut.hidden = YES;
+        self.resultLabel.hidden = NO;
         self.cancelBut.hidden = YES;
         self.statuLabel.hidden = NO;
+//        self.resultLabel.text = [[self.dataSource objectforNotNullKey:@"result"] description];
         self.statuLabel.text = [[self.dataSource objectforNotNullKey:@"status"] description];
     }
     
@@ -217,6 +227,8 @@
     self.containerView.frame = CGRectMake(10 * BILI_WIDTH, CGRectGetMaxY(self.jialiLabel.frame) + 10*BILI_WIDTH, SCREEN_WIDTH - 20 *BILI_WIDTH, kOneLineHeight * [detials count] +kOneLineHeight);
     self.rectView.frame = CGRectMake(0, CGRectGetMaxY(self.containerView.frame) +kOneLineHeight, SCREEN_WIDTH, 4);
     
+    [self.containerView setNeedsLayout];
+    [self.containerView setNeedsDisplay];
     self.containerView.detialsArray = detials;
     
     return CGRectGetMaxY(self.rectView.frame);
