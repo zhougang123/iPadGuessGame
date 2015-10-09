@@ -536,6 +536,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
 - (void)betButtonAction:(BetButton *)button{
    
     WS(weakSelf);
+    [self.view endEditing:YES];
     selectedBetButton = button;
     
     BetModel *betModel = button.betmodel;
