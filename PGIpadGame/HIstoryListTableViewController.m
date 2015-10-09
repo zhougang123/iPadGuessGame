@@ -110,7 +110,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    CGFloat rowHeight = 128 + 20 + 25;
+    CGFloat rowHeight = 144 + 20 + 25;
     
     NSDictionary *dict = self.dataSource[indexPath.section];
     NSArray *orderArray = [dict objectForKey:@"orderDetailVoList"];
@@ -152,8 +152,7 @@
     
     NSDictionary *dataSource = noti.userInfo;
     
-    
-    
+
     NSString *userID = [[dataSource objectforNotNullKey:@"waiterId"] description];
     if (![userID isEqualToString:[self.user.userID description]]) {
         

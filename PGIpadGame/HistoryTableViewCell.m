@@ -21,10 +21,10 @@
 
 @property (nonatomic ,strong)UILabel *statuLabel;
 
-
 @property (nonatomic, strong) PGCustomView *containerView;
 
 @property (nonatomic ,strong)UIView *rectView;
+
 
 @end
 
