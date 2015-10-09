@@ -97,10 +97,10 @@
     
     NSDictionary *dic = self.dataSource[indexPath.row];
     cell.dataSource = dic;
-    [cell drawTableCellWithDetials:[dic objectForKey:@"orderDetailVoList"]];
-    //    CGRect frame = cell.frame;
-    //    frame.size.height = cellH;
-    //    cell.frame = frame;
+    CGFloat cellH = [cell drawTableCellWithDetials:[dic objectForKey:@"orderDetailVoList"]];
+    CGRect frame = cell.frame;
+    frame.size.height = cellH;
+    cell.frame = frame;
     
     return cell;
 }
@@ -108,12 +108,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    //    HistoryTableViewCell *cell = (HistoryTableViewCell *) [self tableView:tableView cellForRowAtIndexPath:indexPath];
-    //
-    //    CGFloat height = cell.frame.size.height;
+    HistoryTableViewCell *cell = (HistoryTableViewCell *) [self tableView:tableView cellForRowAtIndexPath:indexPath];
     
-    NSArray *dataArr = [self.dataSource[indexPath.row] objectForKey:@"orderDetailVoList"];
-    CGFloat height = 64 *BILI_WIDTH +5 + 10 *BILI_WIDTH +kOneLineHeight * [dataArr count] +kOneLineHeight;
+    CGFloat height = cell.frame.size.height;
+    
+//    NSArray *dataArr = [self.dataSource[indexPath.row] objectForKey:@"orderDetailVoList"];
+//    CGFloat height = 64 *BILI_WIDTH +5 + 10 *BILI_WIDTH +kOneLineHeight * [dataArr count] +kOneLineHeight;
     
     return height;
 }

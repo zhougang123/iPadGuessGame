@@ -665,7 +665,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
     
     NSInteger number = [drinksNumLabel.text integerValue];
     if (number + 1 > self.selectDrinkModel.buyLimit) {
-        [SVProgressHUD showErrorWithStatus:@"已经投得够多了哦 - -!"];
+        [SVProgressHUD showErrorWithStatus:@"土豪，酒水数量已经很多了！ - -!"];
         return;
     }
     
