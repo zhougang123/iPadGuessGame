@@ -20,6 +20,8 @@ AppDelegate *shareAppDelegate = nil;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
 
+    
+    NSLog(@"kkkkkk%f", SCREEN_WIDTH);
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
     LoginViewContoller *loginVC = [[LoginViewContoller alloc] init];
