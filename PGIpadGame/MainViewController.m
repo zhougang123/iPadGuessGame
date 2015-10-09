@@ -76,6 +76,9 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
 
 
 @property (nonatomic, assign)BOOL isGuessModel;
+
+
+@property (nonatomic, strong)DrinksModel *selectDrinkModel;
 @end
 
 @implementation MainViewController
@@ -556,15 +559,22 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
                         weakSelf.containerGuessInfo.drinkNum = selectedModel.drinkNum;
                         weakSelf.containerGuessInfo.drinkName = selectedModel.drinkName;
                         weakSelf.containerGuessInfo.betModel = betModel;
-                        
                         drinksNumLabel.text = selectedModel.drinkNum;
                         weakSelf.defaultDrinkID = selectedModel.drinkID;
+                        break;
+                    }
+                }
+                
+                for (DrinksModel *model in weakSelf.drinkArray) {
+                    if (model.drinksID == [weakSelf.defaultDrinkID integerValue]) {
+                        weakSelf.selectDrinkModel = model;
                         break;
                     }
                 }
             }else{
                 drinksNumLabel.text = @"0";
                 DrinksModel *drinkInfo = weakSelf.drinkArray[0];
+                weakSelf.selectDrinkModel = drinkInfo;
                 weakSelf.containerGuessInfo.drinkID = [NSString stringWithFormat:@"%li", drinkInfo.drinksID];
                 weakSelf.containerGuessInfo.drinkName = drinkInfo.name;
                 weakSelf.containerGuessInfo.oddsID =[NSString stringWithFormat:@"%ld", button.tag];
@@ -654,7 +664,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
 - (void)addbuttonAction{
     
     NSInteger number = [drinksNumLabel.text integerValue];
-    if (number >= 99) {
+    if (number + 1 > self.selectDrinkModel.buyLimit) {
         [SVProgressHUD showErrorWithStatus:@"已经投得够多了哦 - -!"];
         return;
     }
@@ -701,7 +711,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
     
     selectedBetButton.betmodel.drinksNumber = [NSNumber numberWithInteger:[drinksNumLabel.text integerValue]];
     drinksNumLabel.text = @"0";
-    
+    self.selectDrinkModel = nil;
     
     self.containerGuessInfo = nil;
     [self updateBetButton:selectedBetButton];
@@ -938,9 +948,18 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
     if (tableView.tag == TableViewType_BetInfo) {
         
         DrinksModel *drinkInfo = self.drinkArray[indexPath.row];
+        
+        
         self.defaultDrinkID = [NSString stringWithFormat:@"%li", drinkInfo.drinksID];
         self.containerGuessInfo.drinkID = [NSString stringWithFormat:@"%li", drinkInfo.drinksID];
         self.containerGuessInfo.drinkName = drinkInfo.name;
+        
+        NSInteger selectNum = [drinksNumLabel.text integerValue];
+        if (selectNum > drinkInfo.buyLimit) {
+            self.containerGuessInfo.drinkNum = [NSString stringWithFormat:@"%li", drinkInfo.buyLimit];
+        }
+        self.selectDrinkModel = drinkInfo;
+        
         [tableListView reloadData];
     }
 }

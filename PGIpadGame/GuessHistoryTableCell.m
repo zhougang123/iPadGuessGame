@@ -134,6 +134,7 @@
     self.customView.detialsArray = orderArray;
     
 }
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
