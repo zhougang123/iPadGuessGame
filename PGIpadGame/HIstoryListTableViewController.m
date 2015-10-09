@@ -97,10 +97,10 @@
     
     NSDictionary *dic = self.dataSource[indexPath.row];
     cell.dataSource = dic;
-    CGFloat cellH = [cell drawTableCellWithDetials:[dic objectForKey:@"orderDetailVoList"]];
-    CGRect frame = cell.frame;
-    frame.size.height = cellH;
-    cell.frame = frame;
+    [cell drawTableCellWithDetials:[dic objectForKey:@"orderDetailVoList"]];
+//    CGRect frame = cell.frame;
+//    frame.size.height = cellH;
+//    cell.frame = frame;
     
     return cell;
 }
@@ -268,6 +268,7 @@
     } fail:^(NSString *error) {
         
         [SVProgressHUD showErrorWithStatus:error];
+        [weakself netWorking];
         
     }];
     

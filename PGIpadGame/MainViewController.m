@@ -1098,7 +1098,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
         NSDictionary *detial = orderList[i];
         GuessInfoModel *mode = [[GuessInfoModel alloc] init];
         
-        
+        mode.customID  = [NSString stringWithFormat:@"%@",detial[@"id"]];
         mode.oddsID    = [NSString stringWithFormat:@"%@",detial[@"oddsId"]];
         mode.drinkNum  = [NSString stringWithFormat:@"%@",detial[@"drinkNum"]];;
         mode.drinkName = [NSString stringWithFormat:@"%@",detial[@"drinkName"]];
@@ -1154,6 +1154,10 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
     
     for (GuessInfoModel *model in self.containerGuessArray) {
         NSMutableDictionary *guessDict = [[NSMutableDictionary alloc] init];
+       
+        if (model.customID) {
+            [guessDict setValue:model.customID forKey:@"id"];
+        }
         [guessDict setValue:model.oddsID forKey:@"oddsId"];
         [guessDict setValue:model.drinkNum forKey:@"drinkNum"];
         [guessDict setValue:model.drinkID forKey:@"drinkId"];

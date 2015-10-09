@@ -62,8 +62,8 @@
     passwordTf = [[UITextField alloc]initWithFrame:CGRectMake(userNameTf.frame.origin.x, passwordLb.frame.origin.y, userNameTf.frame.size.width, userNameTf.frame.size.height)];
     
     //=======
-//    userNameTf.text = KdemoUserName;
-//    passwordTf.text = KdemoPassWord;
+    userNameTf.text = KdemoUserName;
+    passwordTf.text = KdemoPassWord;
     
     userNameTf.delegate = self;
     passwordTf.delegate = self;

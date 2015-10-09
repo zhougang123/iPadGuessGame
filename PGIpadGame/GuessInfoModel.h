@@ -11,6 +11,7 @@
 @interface GuessInfoModel : NSObject
 
 @property (nonatomic, strong) NSString *oddsID;
+@property (nonatomic, strong) NSString *customID;
 @property (nonatomic, strong) NSString *drinkNum;
 @property (nonatomic, strong) NSString *drinkID;
 @property (nonatomic, strong) NSString *drinkName;
