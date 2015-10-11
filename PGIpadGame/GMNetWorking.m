@@ -311,8 +311,8 @@
         NSInteger respondCode = [[responseObject objectForKey:@"code"] integerValue];
         if (respondCode == 200) {
             //成功
-            NSArray *drinksArray = [[JsonParser parserDrinksArray:[responseObject objectForKey:@"data"]] mutableCopy];
-            callBack(drinksArray);
+           
+            callBack(nil);
             
         }else{
             //失败

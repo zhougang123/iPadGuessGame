@@ -93,14 +93,26 @@
         [SVProgressHUD showErrorWithStatus:@"密码不能大于18位"];
         return;
     }
+    
+    if (self.pwdTF1.text.length < 6) {
+        [SVProgressHUD showErrorWithStatus:@"密码不能小于6位"];
+        return;
+    }
+    
+    if (![self.pwdTF1.text isEqualToString:self.pwdTF2.text]) {
+        [SVProgressHUD showErrorWithStatus:@"两次密码输入不匹配"];
+        return;
+    }
+    
     WS(weakSelf);
     
     [SVProgressHUD show];
 
     if ([self.pwdTF1.text isEqualToString:self.pwdTF2.text]) {
         [GMNetWorking modifPasswordWithTimeout:30 password:self.pwdTF1.text waiterId:[NSString stringWithFormat:@"%@", self.user.userID] completion:^(id obj) {
+            
             [SVProgressHUD  showSuccessWithStatus:@"修改密码成功, 请重新登录"];
-            [weakSelf.navigationController popToRootViewControllerAnimated:YES];
+            [weakSelf.navigationController popViewControllerAnimated:YES];
         } fail:^(NSString *error) {
             [SVProgressHUD  showSuccessWithStatus:@"修改密码失败"];
 

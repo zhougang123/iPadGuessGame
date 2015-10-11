@@ -16,10 +16,12 @@
 @property (nonatomic ,strong)UILabel *timeLabel;
 @property (nonatomic ,strong)UILabel *jialiLabel;
 @property (nonatomic ,strong)UILabel *managerLabel;
+@property (nonatomic ,strong)UILabel *waiterLabel;
 @property (nonatomic ,strong)UIButton *modifyBut;
 @property (nonatomic ,strong)UIButton *cancelBut;
 @property (nonatomic ,strong)UILabel *resultLabel;
 @property (nonatomic ,strong)UILabel *statuLabel;
+
 
 @property (nonatomic, strong) PGCustomView *containerView;
 
@@ -107,7 +109,7 @@
     self.timeLabel.font = [UIFont systemFontOfSize:6.5 *BILI_WIDTH];
     
     
-    UILabel *jiali = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.timeLabel.frame) + 20 *BILI_WIDTH, CGRectGetMaxY(lineView.frame) + 5*BILI_WIDTH, CGRectGetWidth(timeLabel.frame), 10 *BILI_WIDTH)];
+    UILabel *jiali = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.timeLabel.frame) + 17 *BILI_WIDTH, CGRectGetMaxY(lineView.frame) + 5*BILI_WIDTH, CGRectGetWidth(timeLabel.frame), 10 *BILI_WIDTH)];
     jiali.text = @"包房佳丽:";
     jiali.textColor = UIColorFromRGB(0x828282);
     jiali.font = [UIFont systemFontOfSize:6.5 *BILI_WIDTH];
@@ -120,7 +122,7 @@
     self.jialiLabel.text = @"983324";
     
     
-    UILabel *manager = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.jialiLabel.frame) +20 *BILI_WIDTH, CGRectGetMaxY(lineView.frame) + 5*BILI_WIDTH, CGRectGetWidth(jiali.frame), 10 *BILI_WIDTH)];
+    UILabel *manager = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.jialiLabel.frame) +17 *BILI_WIDTH, CGRectGetMaxY(lineView.frame) + 5*BILI_WIDTH, CGRectGetWidth(jiali.frame), 10 *BILI_WIDTH)];
     manager.text = @"客户经理:";
     manager.textColor = UIColorFromRGB(0x828282);
     manager.font = [UIFont systemFontOfSize:6.5 *BILI_WIDTH];
@@ -131,6 +133,18 @@
     self.managerLabel.font = [UIFont systemFontOfSize:6.5 *BILI_WIDTH];
     self.managerLabel.text = @"0233";
     
+    UILabel *waiterLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.managerLabel.frame) + 17 *BILI_WIDTH,  CGRectGetMaxY(lineView.frame) + 5*BILI_WIDTH, CGRectGetWidth(jiali.frame), 10 *BILI_WIDTH)];
+    waiterLabel.text = @"服务员";
+    waiterLabel.textColor = UIColorFromRGB(0x828282);
+    waiterLabel.font = [UIFont systemFontOfSize:6.5 *BILI_WIDTH];
+    
+    self.waiterLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(waiterLabel.frame) - 3 *BILI_WIDTH, CGRectGetMaxY(lineView.frame) + 5*BILI_WIDTH, CGRectGetWidth(manager.frame), 10 *BILI_WIDTH)];
+    self.waiterLabel.textColor = UIColorFromRGB(0x828282);
+    self.waiterLabel.font = [UIFont systemFontOfSize:6.5 *BILI_WIDTH];
+    self.waiterLabel.text = @"PG000";
+    
+    
+    
     _rectView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(timeLabel.frame) +5*BILI_WIDTH , SCREEN_WIDTH, 4)];
     self.rectView.backgroundColor = UIColorFromRGB(0xE4E4E4);
     
@@ -140,6 +154,8 @@
     
     [self addSubview:_rectView];
     [self addSubview:self.containerView];
+    [self addSubview:waiterLabel];
+    [self addSubview:self.waiterLabel];
     [self addSubview:self.managerLabel];
     [self addSubview:manager];
     [self addSubview:self.jialiLabel];
@@ -185,6 +201,7 @@
     
     self.jialiLabel.text = [self.dataSource objectforNotNullKey:@"beautyWorkNumber"];
     self.managerLabel.text = [self.dataSource objectforNotNullKey:@"managerWorkNumber"];
+    self.waiterLabel.text = [self.dataSource objectforNotNullKey:@"waiterWorkNumber"];
     
     if ([[self.dataSource objectforNotNullKey:@"status"] isEqualToString:@"进行中"]) {
         self.statuLabel.hidden = YES;
@@ -196,7 +213,7 @@
         self.resultLabel.hidden = NO;
         self.cancelBut.hidden = YES;
         self.statuLabel.hidden = NO;
-//        self.resultLabel.text = [[self.dataSource objectforNotNullKey:@"result"] description];
+        self.resultLabel.text = [NSString stringWithFormat:@"%@,%@",[self.dataSource objectforNotNullKey:@"resultFirst"],[self.dataSource objectforNotNullKey:@"resultSecond"]];
         self.statuLabel.text = [[self.dataSource objectforNotNullKey:@"status"] description];
     }
     

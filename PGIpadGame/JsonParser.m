@@ -17,7 +17,7 @@
     user.address = [userDic objectForKey:@"address"];
     user.gender = [userDic objectForKey:@"gender"];
     user.userID = [userDic objectForKey:@"id"];
-    user.isFirstLogin = [[userDic objectForKey:@"isFirstLogin"] boolValue];
+    user.isFirstLogin = [[userDic objectForKey:@"isFirstLogin"] description];
     user.cardNumber = [userDic objectForKey:@"idCardNo"];
     user.name = [userDic objectForKey:@"name"];
     user.nickName = [userDic objectForKey:@"nickname"];

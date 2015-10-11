@@ -194,17 +194,17 @@
 }
 
 
-- (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
-{
-    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:17.0f]};
-    
-    return [[NSAttributedString alloc] initWithString:@"Continue" attributes:attributes];
-}
-
-- (UIImage *)buttonImageForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
-{
-    return [UIImage imageNamed:@"button_image"];
-}
+//- (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
+//{
+//    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:17.0f]};
+//    
+//    return [[NSAttributedString alloc] initWithString:@"Continue" attributes:attributes];
+//}
+//
+//- (UIImage *)buttonImageForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
+//{
+//    return [UIImage imageNamed:@"button_image"];
+//}
 
 
 - (UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView
@@ -225,7 +225,7 @@
 - (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView
 {
     // Do something
-    [self netWorking];
+//    [self netWorking];
 }
 
 

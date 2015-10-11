@@ -62,8 +62,8 @@
     passwordTf = [[UITextField alloc]initWithFrame:CGRectMake(userNameTf.frame.origin.x, passwordLb.frame.origin.y, userNameTf.frame.size.width, userNameTf.frame.size.height)];
     
     //=======
-    userNameTf.text = KdemoUserName;
-    passwordTf.text = KdemoPassWord;
+//    userNameTf.text = KdemoUserName;
+//    passwordTf.text = KdemoPassWord;
     
     userNameTf.delegate = self;
     passwordTf.delegate = self;
@@ -103,6 +103,16 @@
 //    
 //    
 //    return;
+    if (userNameTf.text.length <3) {
+        [SVProgressHUD showErrorWithStatus:@"请输入正确的账号"];
+        return;
+    }
+    
+    if (passwordTf.text.length <6) {
+        [SVProgressHUD showErrorWithStatus:@"请输入正确的密码"];
+        return;
+    }
+    
     NSLog(@"登陆");
     
     [SVProgressHUD show];
@@ -113,9 +123,10 @@
         [SVProgressHUD showInfoWithStatus:@"登陆成功"];
         
         PGUser *user = obj;
-        if (user.isFirstLogin) {
+        if ([user.isFirstLogin isEqualToString:@"是"]) {
             ModifyPwdViewController *modify = [[ModifyPwdViewController alloc] init];
             modify.user = user;
+            passwordTf.text = @"";
             [weakself.navigationController pushViewController:modify animated:YES];
         }else{
             MainViewController *maiViewC = [[MainViewController alloc]init];

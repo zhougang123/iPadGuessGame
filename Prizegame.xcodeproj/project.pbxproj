@@ -360,6 +360,7 @@
 				TargetAttributes = {
 					989910E11BC1648100E84C66 = {
 						CreatedOnToolsVersion = 6.3;
+						DevelopmentTeam = 6XX8659PN2;
 					};
 					989910FA1BC1648100E84C66 = {
 						CreatedOnToolsVersion = 6.3;
@@ -607,6 +608,7 @@
 			baseConfigurationReference = 98D680F6DA758E5D3E51D4AB /* Pods-PGIpadGame.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/PGIpadGame/PrefixHeader.pch";
@@ -614,6 +616,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = Prizegame;
+				PROVISIONING_PROFILE = "54ef3937-e3fb-4c37-bccc-15c92d96beaf";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
@@ -623,6 +626,7 @@
 			baseConfigurationReference = 814141447E5A8851F278966F /* Pods-PGIpadGame.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/PGIpadGame/PrefixHeader.pch";
@@ -630,6 +634,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = Prizegame;
+				PROVISIONING_PROFILE = "54ef3937-e3fb-4c37-bccc-15c92d96beaf";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;

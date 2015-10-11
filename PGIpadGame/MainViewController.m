@@ -970,7 +970,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
 {
     
     if (self.deskInfoDist == nil) {
-        [SVProgressHUD showErrorWithStatus:@"请先选择房间号"];
+        [SVProgressHUD showErrorWithStatus:@"请先选择桌号"];
         return;
     }
     
