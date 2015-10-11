@@ -110,7 +110,7 @@
     
     
     UILabel *jiali = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.timeLabel.frame) + 17 *BILI_WIDTH, CGRectGetMaxY(lineView.frame) + 5*BILI_WIDTH, CGRectGetWidth(timeLabel.frame), 10 *BILI_WIDTH)];
-    jiali.text = @"包房佳丽:";
+    jiali.text = @"佳丽:";
     jiali.textColor = UIColorFromRGB(0x828282);
     jiali.font = [UIFont systemFontOfSize:6.5 *BILI_WIDTH];
     
