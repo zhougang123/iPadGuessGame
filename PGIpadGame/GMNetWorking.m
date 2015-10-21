@@ -409,6 +409,41 @@
 
 
 
++ (void)VerificationCodeWithTimeout:(NSTimeInterval)timeout code:(NSString *)code completion:(callBack)callBack fail:(ErrorString)errorString{
+    
+    NSString *path = [APIaddress stringByAppendingString:APIverifivation];
+    path = [path stringByAppendingString:[NSString stringWithFormat:@"?code=%@",code]];
+    path = [path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    AFHTTPRequestOperationManager *manager = [self getManagerWithTimeout:timeout];
+    
+    
+    [manager GET:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"授权成功:/n%@",responseObject);
+        
+        
+        NSInteger respondCode = [[responseObject objectForKey:@"code"] integerValue];
+        if (respondCode == 200) {
+            //成功
+            
+            callBack(nil);
+            
+        }else{
+            //失败
+            errorString([responseObject objectForKey:@"msg"]);
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        NSLog(@"fail 授权失败:%@",[error description]);
+        errorString(@"网络不好,请稍后再试");
+        
+    }];
+    
+}
+
+
+
 
 
 

@@ -24,6 +24,7 @@ typedef void (^ErrorString)(NSString* error);
 #define APIlogin             @"/user/login"    //登录
 #define APIoddsList          @"/odds/list"     //
 #define APImodifyPassword    @"/user/changePwd"//修改密码
+#define APIverifivation      @"/admin/auth"
 
 @interface GMNetWorking : NSObject
 
@@ -88,6 +89,9 @@ typedef void (^ErrorString)(NSString* error);
 
 
 + (void)cancelOrderWithTimeout:(NSTimeInterval)timeout orderID:(NSNumber *)orderID completion:(callBack)callBack fail:(ErrorString)errorString;
+
+
++ (void)VerificationCodeWithTimeout:(NSTimeInterval)timeout code:(NSString *)code completion:(callBack)callBack fail:(ErrorString)errorString;
 
 
 @end

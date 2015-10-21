@@ -134,7 +134,7 @@
     self.managerLabel.text = @"0233";
     
     UILabel *waiterLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.managerLabel.frame) + 17 *BILI_WIDTH,  CGRectGetMaxY(lineView.frame) + 5*BILI_WIDTH, CGRectGetWidth(jiali.frame), 10 *BILI_WIDTH)];
-    waiterLabel.text = @"服务员";
+    waiterLabel.text = @"服务员:";
     waiterLabel.textColor = UIColorFromRGB(0x828282);
     waiterLabel.font = [UIFont systemFontOfSize:6.5 *BILI_WIDTH];
     

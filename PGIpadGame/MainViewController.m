@@ -31,14 +31,15 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
 };
 
 
-@interface MainViewController ()<GuessSureAlertViewDelegate,HistoryListTableViewControllerDelegate, UITableViewDataSource,UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate,UIAlertViewDelegate>
+@interface MainViewController ()<GuessSureAlertViewDelegate,HistoryListTableViewControllerDelegate, UITableViewDataSource,UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate,UITextFieldDelegate,UIAlertViewDelegate>
 {
     DeskInfoModel *selectedDeskInfo;//选中的桌信息(桌号、佳丽、客户经理)
     BetButton *selectedBetButton;//选中的下注按钮(下注类型、赔率、酒水、酒水数量)
     UIButton *maskButton;//阴影按钮（tableView阴影背景）
     UITableView *tableListView;//列表（桌信息列表、下注列表）
     
-    UILabel *drinksNumLabel;//计数label
+//    UILabel *drinksNumLabel;//计数label
+    UITextField *drinkNumTF;
     
     UIButton *historyBut;
 }
@@ -273,6 +274,9 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
     // Dispose of any resources that can be recreated.
 }
 
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [self.view endEditing:YES];
+}
 
 - (void)createUI{
     
@@ -560,7 +564,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
                         weakSelf.containerGuessInfo.drinkNum = selectedModel.drinkNum;
                         weakSelf.containerGuessInfo.drinkName = selectedModel.drinkName;
                         weakSelf.containerGuessInfo.betModel = betModel;
-                        drinksNumLabel.text = selectedModel.drinkNum;
+                        drinkNumTF.text = selectedModel.drinkNum;
                         weakSelf.defaultDrinkID = selectedModel.drinkID;
                         break;
                     }
@@ -573,7 +577,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
                     }
                 }
             }else{
-                drinksNumLabel.text = @"0";
+                drinkNumTF.text = @"0";
                 DrinksModel *drinkInfo = weakSelf.drinkArray[0];
                 weakSelf.selectDrinkModel = drinkInfo;
                 weakSelf.containerGuessInfo.drinkID = [NSString stringWithFormat:@"%li", drinkInfo.drinksID];
@@ -630,6 +634,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
 - (void)hiddenList{
     
     self.containerGuessInfo = nil;
+    [self.view endEditing:YES];
     
     CGRect frame = tableListView.frame;
     frame.origin.y = SCREEN_HEIGHT;
@@ -649,7 +654,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
 //点击了列表里面-
 - (void)deleteButtonAction{
     
-    NSInteger number = [drinksNumLabel.text integerValue];
+    NSInteger number = [drinkNumTF.text integerValue];
     if (number <= 0) {
         [SVProgressHUD showErrorWithStatus:@"已经不能再减少了哦 - -!"];
         return;
@@ -657,22 +662,22 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
     
 //    selectedBetButton.betmodel.drinksNumber = [NSNumber numberWithInteger:number - 1];
     
-    drinksNumLabel.text = [[NSNumber numberWithInteger:number - 1] description];
-    self.containerGuessInfo.drinkNum = drinksNumLabel.text;
+    drinkNumTF.text = [[NSNumber numberWithInteger:number - 1] description];
+    self.containerGuessInfo.drinkNum = drinkNumTF.text;
 }
 
 //点击了列表里面的+
 - (void)addbuttonAction{
     
-    NSInteger number = [drinksNumLabel.text integerValue];
+    NSInteger number = [drinkNumTF.text integerValue];
     if (number + 1 > self.selectDrinkModel.buyLimit) {
         [SVProgressHUD showErrorWithStatus:@"土豪，酒水数量已经很多了！ - -!"];
         return;
     }
     
 //    selectedBetButton.betmodel.drinksNumber = [NSNumber numberWithInteger:number + 1];
-    drinksNumLabel.text = [[NSNumber numberWithInteger:number + 1] description];
-    self.containerGuessInfo.drinkNum = drinksNumLabel.text;
+    drinkNumTF.text = [[NSNumber numberWithInteger:number + 1] description];
+    self.containerGuessInfo.drinkNum = drinkNumTF.text;
     
 }
 
@@ -693,7 +698,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
             }
             
             selectedBetButton.betmodel.drinksNumber = [NSNumber numberWithInteger:0];
-            drinksNumLabel.text = @"0";
+            drinkNumTF.text = @"0";
             [self updateBetButton:selectedBetButton];
             [self hiddenList];
         }
@@ -710,8 +715,8 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
     
     selectedBetButton.oddsLabel.text = [NSString stringWithFormat:@"%@ 瓶 %@", self.containerGuessInfo.drinkNum, self.containerGuessInfo.drinkName];
     
-    selectedBetButton.betmodel.drinksNumber = [NSNumber numberWithInteger:[drinksNumLabel.text integerValue]];
-    drinksNumLabel.text = @"0";
+    selectedBetButton.betmodel.drinksNumber = [NSNumber numberWithInteger:[drinkNumTF.text integerValue]];
+    drinkNumTF.text = @"0";
     self.selectDrinkModel = nil;
     
     self.containerGuessInfo = nil;
@@ -719,7 +724,9 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
     [self hiddenList];
 }
 
-
+- (void)tableHederViewTap{
+    [drinkNumTF resignFirstResponder];
+}
 
 #pragma  mark - Custom Methon
 
@@ -776,15 +783,18 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
     [deletebutton setBackgroundImage:[UIImage imageNamed:@"jiushui_icon_-"] forState:UIControlStateNormal];
     [deletebutton addTarget:self action:@selector(deleteButtonAction) forControlEvents:UIControlEventTouchUpInside];
     
-    drinksNumLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(deletebutton.frame)+ 10 * BILI_WIDTH, 10, 40 * BILI_WIDTH, TableViewCellHeight - 21)];
-    drinksNumLabel.text = [selectedBetButton.betmodel.drinksNumber description];
-    drinksNumLabel.text = [self.containerGuessInfo.drinkNum integerValue] > 0 ? self.containerGuessInfo.drinkNum : @"0";
-    drinksNumLabel.textAlignment = NSTextAlignmentCenter;
-    drinksNumLabel.font = [UIFont systemFontOfSize:10 *BILI_WIDTH];
-    drinksNumLabel.layer.borderWidth = 1.0;
-    drinksNumLabel.layer.borderColor = UIColorFromRGB(0xe0e0e0).CGColor;
+    drinkNumTF = [[UITextField alloc]initWithFrame:CGRectMake(CGRectGetMaxX(deletebutton.frame)+ 10 * BILI_WIDTH, 10, 40 * BILI_WIDTH, TableViewCellHeight - 21)];
+    drinkNumTF.borderStyle = UITextBorderStyleNone;
+    drinkNumTF.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+    drinkNumTF.text = [selectedBetButton.betmodel.drinksNumber description];
+    drinkNumTF.text = [self.containerGuessInfo.drinkNum integerValue] > 0 ? self.containerGuessInfo.drinkNum : @"0";
+    drinkNumTF.textAlignment = NSTextAlignmentCenter;
+    drinkNumTF.font = [UIFont systemFontOfSize:10 *BILI_WIDTH];
+    drinkNumTF.layer.borderWidth = 1.0;
+    drinkNumTF.layer.borderColor = UIColorFromRGB(0xe0e0e0).CGColor;
+    drinkNumTF.delegate = self;
     
-    UIButton *addButton = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(drinksNumLabel.frame) + 10 *BILI_WIDTH, buttonTopMargin, CGRectGetWidth(deletebutton.frame), CGRectGetHeight(deletebutton.frame))];
+    UIButton *addButton = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(drinkNumTF.frame) + 10 *BILI_WIDTH, buttonTopMargin, CGRectGetWidth(deletebutton.frame), CGRectGetHeight(deletebutton.frame))];
     [addButton setBackgroundImage:[UIImage imageNamed:@"jiushui_icon_+"] forState:UIControlStateNormal];
     [addButton addTarget:self action:@selector(addbuttonAction) forControlEvents:UIControlEventTouchUpInside];
     
@@ -797,7 +807,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
     oddsLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
     
     
-    UIButton* cancelButton = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - CGRectGetWidth(drinksNumLabel.frame)*2 - 8*BILI_WIDTH - 10, 10,CGRectGetWidth(drinksNumLabel.frame), CGRectGetHeight(drinksNumLabel.frame))];
+    UIButton* cancelButton = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - CGRectGetWidth(drinkNumTF.frame)*2 - 8*BILI_WIDTH - 10, 10,CGRectGetWidth(drinkNumTF.frame), CGRectGetHeight(drinkNumTF.frame))];
     [cancelButton setTitle:@"取消" forState:UIControlStateNormal];
     cancelButton.titleLabel.font = [UIFont systemFontOfSize:10 *BILI_WIDTH];
     [cancelButton setTitleColor:UIColorFromRGB(0x545454) forState:UIControlStateNormal];
@@ -817,10 +827,54 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
     [hederView addSubview:cancelButton];
     [hederView addSubview:oddsLabel];
     [hederView addSubview:addButton];
-    [hederView addSubview:drinksNumLabel];
+    [hederView addSubview:drinkNumTF];
     [hederView addSubview:deletebutton];
+    
+    UITapGestureRecognizer *hederViewTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tableHederViewTap)];
+    [hederView addGestureRecognizer:hederViewTap];
+    
 }
 
+
+#pragma  mark - textFieldDeltage
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    
+    NSString *text = [textField.text stringByAppendingString:string];
+    if (![self isPureInt:text]) {
+        return NO;
+    }
+    
+    
+    self.containerGuessInfo.drinkNum = text;
+    if ([text integerValue]> self.selectDrinkModel.buyLimit) {
+        [SVProgressHUD showErrorWithStatus:@"土豪，已经超出限量了哦"];
+        textField.text = [NSString stringWithFormat:@"%ld",self.selectDrinkModel.buyLimit];
+        self.containerGuessInfo.drinkNum = drinkNumTF.text;
+        [textField resignFirstResponder];
+    }
+    return  YES;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    
+    if ([textField.text integerValue]> self.selectDrinkModel.buyLimit) {
+        
+        [SVProgressHUD showErrorWithStatus:@"土豪，已经超出限量了哦"];
+        textField.text = [NSString stringWithFormat:@"%ld",self.selectDrinkModel.buyLimit];
+
+    }
+     self.containerGuessInfo.drinkNum = textField.text;
+    
+    [textField resignFirstResponder];
+    return YES;
+}
+
+
+- (BOOL)isPureInt:(NSString *)string{
+    NSScanner* scan = [NSScanner scannerWithString:string];
+    int val;
+    return [scan scanInt:&val] && [scan isAtEnd];
+}
 
 #pragma  mark - tableViewMethon
 
@@ -955,7 +1009,7 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
         self.containerGuessInfo.drinkID = [NSString stringWithFormat:@"%li", drinkInfo.drinksID];
         self.containerGuessInfo.drinkName = drinkInfo.name;
         
-        NSInteger selectNum = [drinksNumLabel.text integerValue];
+        NSInteger selectNum = [drinkNumTF.text integerValue];
         if (selectNum > drinkInfo.buyLimit) {
             self.containerGuessInfo.drinkNum = [NSString stringWithFormat:@"%li", drinkInfo.buyLimit];
         }
@@ -964,6 +1018,9 @@ typedef NS_ENUM(NSUInteger, CellLabelSType) {
         [tableListView reloadData];
     }
 }
+
+
+
 
 
 - (void)sureGuessToServer

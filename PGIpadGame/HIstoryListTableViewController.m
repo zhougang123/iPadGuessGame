@@ -17,6 +17,8 @@
 @property (nonatomic ,strong)NSMutableArray *dataSource;
 
 @property (nonatomic,strong)NSNumber *cancelOrderID;
+
+@property (nonatomic,strong)NSDictionary *modifyData;
 @end
 
 @implementation HIstoryListTableViewController
@@ -63,6 +65,13 @@
             if (detailArray.count<=0) {
                 [indexArray addObject:obj];
             }
+            
+            NSString *userID = [[obj objectforNotNullKey:@"waiterId"] description];
+            if (![userID isEqualToString:[self.user.userID description]]) {
+                
+                [indexArray addObject:obj];
+            }
+            
         }];
         
         for (id obj in indexArray) {
@@ -129,21 +138,22 @@
 - (void)cellModifyButtonAction:(NSNotification *)noti
 {
     
-    NSDictionary *dataSource = noti.userInfo;
+    self.modifyData = noti.userInfo;
     
     
     
-    NSString *userID = [[dataSource objectforNotNullKey:@"waiterId"] description];
+    NSString *userID = [[self.modifyData objectforNotNullKey:@"waiterId"] description];
     if (![userID isEqualToString:[self.user.userID description]]) {
         
         [SVProgressHUD showErrorWithStatus:@"这不是您的下注的竞猜哦~"];
         return;
     }
     
-    if ([self.delegate respondsToSelector:@selector(clickCellModifyButtonWithDataSource:)]) {
-        [self.navigationController popViewControllerAnimated:YES];
-        [self.delegate clickCellModifyButtonWithDataSource:dataSource];
-    }
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"请输入授权码" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定",nil];
+    alert.alertViewStyle = UIAlertViewStyleSecureTextInput;
+    alert.tag = 1000;
+    [alert show];
+    
 }
 
 
@@ -246,7 +256,9 @@
     
     self.cancelOrderID = [dataSource objectforNotNullKey:@"id"];
     
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"是否取消此次下注？" delegate:self cancelButtonTitle:@"不" otherButtonTitles:@"是",nil];
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"请输入授权码？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定",nil];
+    alert.tag = 888;
+    alert.alertViewStyle = UIAlertViewStyleSecureTextInput;
     [alert show];
 }
 
@@ -257,20 +269,59 @@
         return;
     }
     
-    
-    [SVProgressHUD show];
     WS(weakself);
-    [GMNetWorking cancelOrderWithTimeout:15 orderID:self.cancelOrderID completion:^(id obj) {
+    UITextField *textTF = [alertView textFieldAtIndex:0];
+    [SVProgressHUD show];
+    
+    if (alertView.tag == 888) {
+        //取消下注
         
-        [SVProgressHUD showInfoWithStatus:@"取消成功"];
-        [weakself netWorking];
+        [GMNetWorking VerificationCodeWithTimeout:15 code:textTF.text completion:^(id obj) {
+            
+            [SVProgressHUD showInfoWithStatus:@"验证成功"];
+            
+            [GMNetWorking cancelOrderWithTimeout:15 orderID:self.cancelOrderID completion:^(id obj) {
+                
+                [SVProgressHUD showInfoWithStatus:@"取消成功"];
+                [weakself netWorking];
+                
+            } fail:^(NSString *error) {
+                
+                [SVProgressHUD showErrorWithStatus:error];
+                [weakself netWorking];
+                
+            }];
+            
+        } fail:^(NSString *error) {
+            
+            [SVProgressHUD showErrorWithStatus:error];
+            
+        }];
         
-    } fail:^(NSString *error) {
+       
+    }else if (alertView.tag == 1000){
+        //修改竞猜
+        [GMNetWorking VerificationCodeWithTimeout:15 code:textTF.text completion:^(id obj) {
+            
+            [SVProgressHUD showInfoWithStatus:@"验证成功"];
+            
+            if ([weakself.delegate respondsToSelector:@selector(clickCellModifyButtonWithDataSource:)]) {
+                [weakself.navigationController popViewControllerAnimated:YES];
+                [weakself.delegate clickCellModifyButtonWithDataSource:self.modifyData];
+            }
+            
+        } fail:^(NSString *error) {
+            
+            [SVProgressHUD showErrorWithStatus:error];
+            
+        }];
+    
         
-        [SVProgressHUD showErrorWithStatus:error];
-        [weakself netWorking];
-        
-    }];
+    }
+    
+    
+    
+    
     
     
 }
